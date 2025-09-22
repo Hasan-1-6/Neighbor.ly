@@ -1,0 +1,33 @@
+{
+  "name": "neighbor.ly",
+  "version": "1.0.0",
+  "description": "A full stack web app for managing societies",
+  "keywords": [
+    "postgresql",
+    "sequelise",
+    "full",
+    "stack",
+    "express",
+    "sql"
+  ],
+  "license": "ISC",
+  "author": "Hasan Dilshad",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "nanoid": "^5.1.6",
+    "nodemon": "^3.1.10",
+    "sequelize": "^6.37.7",
+    "validator": "^13.15.15"
+  }
+}
