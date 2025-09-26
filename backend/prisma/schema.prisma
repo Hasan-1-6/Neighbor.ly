@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-sc`hema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Resident {
+  id    String @id 
+  owner String
+  contact String @unique
+  apart String
+  floor Int
+  room Int @unique
+  password String
+  aadhar String?
+  dueRent Int @default(0)
+}
+
+model Admin {
+  id String @id
+  password String
+  name String
+}
+
+model Notifications {
+  ticketId String @id
+  status String @default("active")
+  apart String
+  floor String
+  room String
+  title String
+  description String?
+  resolutionTime Int
+  cost Int
+  createdAt  DateTime   @default(now())
+}
+
+
+model History {
+  ticketId String @id
+  apart String
+  floor Int 
+  room Int @unique
+  title String
+  description String?
+  cost Int
+  handledBy String
+  createdAt DateTime @default(now())
+}
+
+model payHistory{
+  transactionId String @id
+  userId String 
+  amount Int
+}
