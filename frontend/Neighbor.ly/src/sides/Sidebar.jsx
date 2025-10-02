@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {Aperture, Home, Users, MessageSquareWarning, UserCircle, Menu, ChevronLeft, X } from "lucide-react";
-// import society from "../../assets/society.png";
+ import society from "../public/society.png";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false); // Desktop collapse
   const [mobileOpen, setMobileOpen] = useState(false); // Mobile toggle
-  // const location = useLocation();
+   const location = useLocation();
 
   const menuItems = [
     { name: "Dashboard", icon: <Home size={20} />, path: "/" },
@@ -37,11 +37,11 @@ const Sidebar = () => {
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-300">
           <div className="flex items-center gap-2 flex-shrink-0">
-            {/* <img 
+            { <img 
               src={society} 
               alt="logo" 
               className={`rounded-xl object-cover transition-all duration-300 ${collapsed ? 'w-6 h-6' : 'w-10 h-10'}`} 
-            /> */}
+            /> }
             {!collapsed && <div className="flex flex-col min-w-0">
               <h2 className="font-bold text-lg text-gray-800 truncate">IERT</h2>
               <p className="text-sm text-gray-500 truncate">Society Management</p>
@@ -70,8 +70,8 @@ const Sidebar = () => {
         {/* Menu */}
         <nav className="flex flex-col mt-4 p-4">
           {menuItems.map((item, idx) => {
-            // const active = location.pathname === item.path;
-              const active = "123"
+             const active = location.pathname === item.path;
+              
             return (
               <div
                 key={idx}
