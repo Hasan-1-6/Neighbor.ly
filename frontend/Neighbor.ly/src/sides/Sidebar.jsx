@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import {Aperture, Home, Users, MessageSquareWarning, UserCircle, Menu, ChevronLeft, X } from "lucide-react";
+import {Aperture, Home, Users, MessageSquareWarning, UserCircle, Menu, ChevronLeft, X, Settings } from "lucide-react";
  import society from "../public/society.png";
+ import TopNav from "./Topnav";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false); // Desktop collapse
@@ -13,6 +14,7 @@ const Sidebar = () => {
     { name: "Members", icon: <Users size={20} />, path: "/members" },
     { name: "Grievances", icon: <MessageSquareWarning size={20} />, path: "/grev" },
     { name: "Profile", icon: <UserCircle size={20} />, path: "/pro" },
+    { name: "Setting", icon: <Settings size={20} />, path: "/setting"},
   ];
 
   return (
