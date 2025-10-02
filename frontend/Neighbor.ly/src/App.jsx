@@ -1,13 +1,13 @@
 import { useState } from 'react'
- import Dashboard from './sides/Header/Dashboard'
- import Grievances from './sides/Header/Grievances'
- import Members from './sides/Header/Members'
-import Navbar from './user/Navbar'
-import Footer from './user/Footer'
- import Profile from './sides/Header/Profile'
+ import Dashboard from './user/Dashboard'
+ import Grievances from './user/Grievances'
+ import Members from './user/Members'
+import Navbar from './sides/Sidebar'
+import Footer from './sides/Footer'
+ import Profile from './user/Profile'
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
-import Topbar from './user/Topbar'
-import { Notification, Setting, Account } from './user/Topnav'
+import Topbar from './sides/Topbar'
+import { Notification, Setting, Account } from './sides/Topnav'
 
 function App() {
    const router = createBrowserRouter([
