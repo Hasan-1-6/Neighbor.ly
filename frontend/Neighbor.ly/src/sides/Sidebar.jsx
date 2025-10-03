@@ -75,7 +75,7 @@ const Sidebar = () => {
              const active = location.pathname === item.path;
               
             return (
-              <div
+              <Link
                 key={idx}
                 to={item.path}
                 className={`
@@ -87,7 +87,7 @@ const Sidebar = () => {
               >
                 {item.icon}
                 {!collapsed && <span className="text-gray-800">{item.name}</span>}
-              </div>
+              </Link>
             );
           })}
         </nav>
