@@ -1,2 +1,274 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 /* src/index.css or src/App.css */
 @import "tailwindcss";
+
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+/* Custom animations */
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translate(20px, -30px) rotate(90deg) scale(1.05);
+  }
+  50% {
+    transform: translate(-15px, 20px) rotate(180deg) scale(1.1);
+  }
+  75% {
+    transform: translate(10px, 15px) rotate(270deg) scale(1.05);
+  }
+}
+
+@keyframes cardAppear {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.5;
+  z-index: 0;
+  filter: blur(1px);
+  animation: float 20s infinite ease-in-out;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 48px 40px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.9);
+  text-align: center;
+  position: relative;
+  z-index: 10;
+  animation: cardAppear 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+}
+
+.field {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.icon-left {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  stroke: #6B7A90;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
+}
+
+.field-input {
+  width: 100%;
+  padding: 16px 16px 16px 52px;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  background: #F8FAFC;
+  color: #1E293B;
+  font-size: 15px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 0;
+}
+
+.field-input::placeholder {
+  color: #94A3B8;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: #4A6CF7;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(122, 97, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.field-input:focus + .icon-left {
+  stroke: #4A6CF7;
+}
+
+.toggle-pass {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  stroke: #6B7A90;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10;
+}
+
+.toggle-pass:hover {
+  stroke: #4A6CF7;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4A6CF7 0%, #3A5BDC 100%);
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: 0.5s;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(74, 108, 247, 0.4);
+}
+
+.login-btn:hover::before {
+  left: 100%;
+}
+
+.login-btn:active {
+  transform: translateY(0);
+}
+
+/* Custom bubble positions and colors */
+.bubble:nth-child(1) {
+  width: 300px; height: 300px; top: 10%; left: 5%;
+  background: linear-gradient(135deg, #4A6CF7 0%, #7E57C2 100%);
+  animation-duration: 25s; animation-delay: 0s;
+}
+
+.bubble:nth-child(2) {
+  width: 200px; height: 200px; bottom: 15%; right: 10%;
+  background: linear-gradient(135deg, #7E57C2 0%, #FF6B9D 100%);
+  animation-duration: 20s; animation-delay: -5s;
+}
+
+.bubble:nth-child(3) {
+  width: 150px; height: 150px; top: 60%; left: 80%;
+  background: linear-gradient(135deg, #4FD1C5 0%, #4A6CF7 100%);
+  animation-duration: 30s; animation-delay: -10s;
+}
+
+.bubble:nth-child(4) {
+  width: 120px; height: 120px; top: 20%; right: 15%;
+  background: linear-gradient(135deg, #FF9A3D 0%, #FF6B9D 100%);
+  animation-duration: 22s; animation-delay: -7s;
+}
+
+.bubble:nth-child(5) {
+  width: 180px; height: 180px; bottom: 25%; left: 8%;
+  background: linear-gradient(135deg, #4FD1C5 0%, #4A6CF7 100%);
+  animation-duration: 28s; animation-delay: -12s;
+}
+
+.bubble:nth-child(6) {
+  width: 100px; height: 100px; top: 75%; left: 15%;
+  background: linear-gradient(135deg, #7E57C2 0%, #4FD1C5 100%);
+  animation-duration: 24s; animation-delay: -3s;
+}
+
+.bubble:nth-child(7) {
+  width: 220px; height: 220px; top: 40%; right: 5%;
+  background: linear-gradient(135deg, #4A6CF7 0%, #FF9A3D 100%);
+  animation-duration: 26s; animation-delay: -15s;
+}
+
+.bubble:nth-child(8) {
+  width: 130px; height: 130px; bottom: 10%; left: 25%;
+  background: linear-gradient(135deg, #FF6B9D 0%, #7E57C2 100%);
+  animation-duration: 19s; animation-delay: -8s;
+}
+
+.bubble:nth-child(9) {
+  width: 160px; height: 160px; top: 15%; left: 40%;
+  background: linear-gradient(135deg, #4FD1C5 0%, #FF9A3D 100%);
+  animation-duration: 32s; animation-delay: -18s;
+}
+
+.bubble:nth-child(10) {
+  width: 90px; height: 90px; bottom: 35%; right: 25%;
+  background: linear-gradient(135deg, #4A6CF7 0%, #7E57C2 100%);
+  animation-duration: 21s; animation-delay: -5s;
+}
+
+.bubble:nth-child(11) {
+  width: 250px; height: 250px; top: 50%; left: 5%;
+  background: linear-gradient(135deg, #FF9A3D 0%, #4FD1C5 100%);
+  animation-duration: 35s; animation-delay: -20s;
+}
+
+.bubble:nth-child(12) {
+  width: 110px; height: 110px; bottom: 5%; right: 30%;
+  background: linear-gradient(135deg, #7E57C2 0%, #FF6B9D 100%);
+  animation-duration: 23s; animation-delay: -10s;
+}
+
+.bubble:nth-child(13) {
+  width: 140px; height: 140px; top: 80%; right: 20%;
+  background: linear-gradient(135deg, #4FD1C5 0%, #4A6CF7 100%);
+  animation-duration: 27s; animation-delay: -14s;
+}
+
+.bubble:nth-child(14) {
+  width: 170px; height: 170px; top: 30%; left: 60%;
+  background: linear-gradient(135deg, #FF6B9D 0%, #FF9A3D 100%);
+  animation-duration: 29s; animation-delay: -16s;
+}
+
+.bubble:nth-child(15) {
+  width: 190px; height: 190px; bottom: 20%; right: 40%;
+  background: linear-gradient(135deg, #4A6CF7 0%, #4FD1C5 100%);
+  animation-duration: 31s; animation-delay: -22s;
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 36px 24px;
+  }
+}
