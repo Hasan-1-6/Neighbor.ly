@@ -2,21 +2,23 @@ import { useState } from 'react'
  import Dashboard from './user/Dashboard'
  import Grievances from './user/Grievances'
  import Members from './user/Members'
-import Navbar from './sides/Sidebar'
+import Sidebar from './sides/Sidebar'
 import Footer from './sides/Footer'
  import Profile from './user/Profile'
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 import Topbar from './sides/Topbar'
 import { Notification, Setting, Account } from './sides/Topnav'
+import './App.css'
 
 function App() {
    const router = createBrowserRouter([
+
      {
        path : '/',
        element : (
         <>
         <Topbar/>
-         <Navbar/>
+         <Sidebar/>
          <Outlet/>
        <Footer/>
          </>

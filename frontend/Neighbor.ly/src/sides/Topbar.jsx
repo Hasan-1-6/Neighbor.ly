@@ -7,7 +7,7 @@ const Topbar = () => {
     const [adminName, setadminName] = useState("Anurag")
     const [flatNo, setflatNo] = useState("")
   return (
-    <div className='flex top-0  w-screen justify-between  p-4 border-b-2 border-gray-400'>
+    <div className='flex top-0 w-screen justify-around  p-4 border-b-2 border-gray-400 md:absolute left-20'>
       <div>
         <h1 className='text-center font-bold text-2xl'>Welcome back, {adminName} ! </h1>
         <p className='text-center block'>{flatNo}</p>
