@@ -3,12 +3,15 @@ import { useState } from 'react'
 // import Dashboard from './sides/Header/Dashboard'
 // import Grievances from './sides/Header/Grievances'
 // import Members from './sides/Header/Members'
-import Navbar from './user/Navbar'
+import Sidebar from './user/Sidebar'
 import Footer from './user/Footer'
 // import Profile from './sides/Header/Profile'
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 import Topbar from './user/Topbar'
 import { Notification, Setting, Account } from './user/Topnav'
+import AnimatedBackground from './Login/AnimatedBackground'
+import LoginCard from './Login/LoginCard'
+
 
 function App() {
   // const router = createBrowserRouter([
@@ -17,7 +20,7 @@ function App() {
   //     element : (
   //       <>
   //       <Topbar/>
-  //       <Navbar/>
+  //       <Sidebar/>
   //       <Outlet/>
   //       <Footer/>
   //       </>
@@ -36,9 +39,10 @@ function App() {
   // ])
   return (
     // <RouterProvider router={router} />
-    <>
-    <Navbar/>
-    </>
+    <div className=''>
+    {/* <Sidebar /> */}
+      <LoginCard />
+    </div>
   )
 }
 

@@ -35,8 +35,9 @@ const Sidebar = () => {
         `}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-300">
-          <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center justify-between p-4  border-b border-gray-300">
+          <div className={`flex items-center gap-2 flex-shrink-0 `}> 
+            {/* ${collapsed && `hidden`} */}
             {/* <img 
               src={society} 
               alt="logo" 
@@ -60,9 +61,9 @@ const Sidebar = () => {
             {/* Desktop collapse button */}
             <button
               onClick={() => setCollapsed(!collapsed)}
-              className="hidden md:flex p-2 rounded hover:bg-gray-200"
+              className="hidden md:flex p-2 rounded  hover:bg-gray-200"
             >
-              <ChevronLeft size={20} className={`${collapsed ? "rotate-180" : ""}`} />
+              <ChevronLeft size={20} className={ ` transition-all ${collapsed ? "rotate-180" : ""}`} />
             </button>
           </div>
         </div>
