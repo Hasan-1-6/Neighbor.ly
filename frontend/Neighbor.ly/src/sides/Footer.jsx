@@ -2,9 +2,13 @@ import React from "react";
 
 const Footer = ({ collapsed }) => {
   return (
-    <div className="p-4 text-md text-gray-500 border-t-2 border-gray-400 fixed bottom-0 text-center w-full">
-      © 2025 IERT Society
-    </div>
+   <>
+   <footer className="relative mt-auto bottom-0 bg-gray-800 text-white py-4 px-4 md:px-8 border-t border-gray-700">
+        <div className="max-w-7xl mx-auto text-center text-sm">
+            <p>&copy; 2025 IERT Society. All rights reserved.</p>
+        </div>
+   </footer>
+   </>
   );
 };
 

@@ -17,10 +17,16 @@ function App() {
        path : '/',
        element : (
         <>
-        <Topbar/>
+        <div className='flex min-h-screen bg-gray-100 overflow-hidden'>
          <Sidebar/>
+         <div className='flex-1 flex flex-col overflow-hidden'>
+         <Topbar/>
+         <main className='flex overflow-y-auto relative'>
          <Outlet/>
+         </main>
        <Footer/>
+       </div>
+         </div>
          </>
       ),
        children: [
