@@ -4,7 +4,7 @@ const Dashboard = () => {
   return (
   <>
   <main className='relative w-full flex-1 pt-20 md:pt-24 md:ml-72 p-4 md:p-6'>
-    <div className='max-w-7xl mx-auto'>
+    <div className='w-full mx-auto'>
       <section className='mb-8 p-4 bg-gray-200'>
         <h3 className='font-bold text-2xl'>Quick Actions</h3>
       </section>
