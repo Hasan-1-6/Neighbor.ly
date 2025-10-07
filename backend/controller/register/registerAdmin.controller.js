@@ -2,8 +2,9 @@ import prisma from "../../db/postgresql";
 
 
 
-export default registerAdmin(req, res){
+export default function registerAdmin(req, res){
     const {email, password, name} = req.body;
+    
     
 }
 
