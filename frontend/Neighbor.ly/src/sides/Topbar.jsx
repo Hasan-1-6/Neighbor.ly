@@ -1,24 +1,34 @@
-import React from 'react'
-import { useState } from 'react'
-import { Bell, Settings, UserCircle } from 'lucide-react'
+import React, { useState } from 'react'
+import { Bell } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-const Topbar = () => {
-    const [adminName, setadminName] = useState("Anurag")
-    const [flatNo, setflatNo] = useState("")
+const Topbar = ({ collapsed }) => {
+  const [adminName] = useState("Anurag")
+  const [flatNo] = useState("")
+
   return (
-    <div className='flex top-0 w-screen justify-around  p-4 border-b-2 border-gray-400 md:absolute left-20'>
-      <div>
-        <h1 className='text-center font-bold text-2xl'>Welcome back, {adminName} ! </h1>
-        <p className='text-center block'>{flatNo}</p>
-        </div>
-        
-          <nav>
-            <ul className='flex flex-col md:flex-row'>
-              <li><Link to='/notification'><Bell /></Link></li>
-            </ul>
-          </nav>
-        
+    <div
+      className={`fixed top-0 right-0 bg-white border-b-2 border-gray-400 z-30
+      flex items-center justify-between p-4 transition-all duration-300
+      w-full md:w-auto ${collapsed ? 'md:left-20' : 'md:left-64'}`}
+    >
+      
+      <div className="flex flex-col">
+        <h1 className="font-bold text-2xl text-center md:text-left">
+          Welcome back, {adminName}!
+        </h1>
+        <p className="text-center md:text-left">{flatNo}</p>
+      </div>
+
+     
+      <div className="flex items-center justify-center md:justify-end w-auto md:w-[100px]">
+        <Link
+          to="/notification"
+          className="flex items-center justify-center text-gray-700 hover:text-gray-900"
+        >
+          <Bell className="w-6 h-6" />
+        </Link>
+      </div>
     </div>
   )
 }

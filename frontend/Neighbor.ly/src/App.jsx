@@ -29,7 +29,7 @@ function App() {
           <div className='flex min-h-screen overflow-hidden'>
             <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
             <MainWrapper collapsed={collapsed}>
-              <Topbar />
+              <Topbar collapsed={collapsed} />
               <main className='flex overflow-y-auto relative'>
                 <Outlet />
               </main>
