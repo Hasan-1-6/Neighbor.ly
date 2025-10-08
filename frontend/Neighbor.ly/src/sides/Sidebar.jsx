@@ -4,8 +4,7 @@ import {Aperture, Home, Users, MessageSquareWarning, UserCircle, Menu, ChevronLe
  import society from "../public/society.png";
  import TopNav from "./Topnav";
 
-const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false); // Desktop collapse
+const Sidebar = ({ collapsed, setCollapsed }) => {
   const [mobileOpen, setMobileOpen] = useState(false); // Mobile toggle
    const location = useLocation();
 

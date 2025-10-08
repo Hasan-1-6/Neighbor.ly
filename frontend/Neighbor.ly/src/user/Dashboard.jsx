@@ -3,7 +3,7 @@ import { Building2, FileText, MegaphoneIcon, MegaphoneOff, MessageCircleWarning,
 const Dashboard = () => {
   return (
   <>
-  <main className='relative w-full flex-1 pt-20 md:pt-24 md:ml-72 p-4 md:p-6'>
+  <main className='relative w-full flex-1 pt-20 md:pt-24 p-4 md:p-6'>
     <div className='w-full mx-auto'>
       <section className='mb-8 p-4 bg-gray-200'>
         <h3 className='font-bold text-2xl'>Quick Actions</h3>

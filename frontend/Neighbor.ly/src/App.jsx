@@ -11,6 +11,15 @@ import { Notification, Setting, Account } from './sides/Topnav'
 import './App.css'
 
 function App() {
+  const [collapsed, setCollapsed] = useState(false)
+  const MainWrapper = ({children, collapsed}) => (
+   <div className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 ${collapsed ? 'md:ml-20' : 'md:ml-64'}`}>
+   {children}
+   </div>
+  )
+
+
+
   const router = createBrowserRouter([
 
     {
@@ -18,14 +27,15 @@ function App() {
       element: (
         <>
           <div className='flex min-h-screen overflow-hidden'>
-            <Sidebar />
-            <div className='flex-1 flex flex-col overflow-hidden'>
+            <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+            <MainWrapper collapsed={collapsed}>
               <Topbar />
               <main className='flex overflow-y-auto relative'>
                 <Outlet />
               </main>
               <Footer />
-            </div>
+              </MainWrapper>
+            
           </div>
         </>
       ),
