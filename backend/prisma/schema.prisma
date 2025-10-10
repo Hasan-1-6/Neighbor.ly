@@ -17,49 +17,65 @@ datasource db {
 model Resident {
   id    String @id 
   owner String
-  contact String @unique
+  contact String
   apart String
   floor Int
-  room Int @unique
+  flat Int @unique
   password String
   aadhar String?
   dueRent Int @default(0)
+  flatRelation Flats? 
+  paymentHistroy payHistory[]
 }
 
 model Admin {
   id String @id
   password String
   name String
+  role String
+  email String
+  contact String
+}
+
+model Flats {
+  occupiedById String @id
+  apart String
+  floor Int
+  flat Int
+  occupiedBy Resident @relation(fields : [occupiedById], references: [id])  
 }
 
 model Notifications {
-  ticketId String @id
+  ticketId String @id //use NanoId
+  createdBy String //just put in the name from payload
   status String @default("active")
-  apart String
-  floor String
-  room String
+  apart String?
+  floor Int?
+  flat Int?
   title String
   description String?
-  resolutionTime Int
+  resolutionTime Int? 
   cost Int
   createdAt  DateTime   @default(now())
+  handledBy String? //show null unitl admin resolves it ie status is progress
 }
 
 
 model History {
   ticketId String @id
-  apart String
-  floor Int 
-  room Int @unique
+  apart String?
+  floor Int?
+  flat Int?
   title String
   description String?
   cost Int
   handledBy String
-  createdAt DateTime @default(now())
+  resolvedAt DateTime @default(now())
 }
 
 model payHistory{
   transactionId String @id
   userId String 
   amount Int
+  resident Resident? @relation(fields : [userId], references: [id])
 }

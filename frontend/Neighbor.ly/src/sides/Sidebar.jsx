@@ -37,16 +37,10 @@ const Sidebar = () => {
         `}
       >
         {/* Header */}
-<<<<<<<< HEAD:frontend/Neighbor.ly/src/user/Sidebar.jsx
-        <div className="flex items-center justify-between p-4  border-b border-gray-300">
-          <div className={`flex items-center gap-2 flex-shrink-0 `}> 
-            {/* ${collapsed && `hidden`} */}
-            {/* <img 
-========
+
         <div className="flex items-center justify-between p-4 border-b border-gray-300">
           <div className="flex items-center gap-2 flex-shrink-0">
             { <img 
->>>>>>>> origin/frontend-divyansh:frontend/Neighbor.ly/src/sides/Sidebar.jsx
               src={society} 
               alt="logo" 
               className={`rounded-xl object-cover transition-all duration-300 ${collapsed ? 'w-6 h-6' : 'w-10 h-10'}`} 

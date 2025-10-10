@@ -1,9 +1,11 @@
-import prisma from "./db/postgresql";
-import express from express
-import cookieParser from "cookie-parser";
-import cors from cors
 
-export default app = express();
+import express from "express"
+import authRoutes from "./routes/auth.routes.js"
+import cookieParser from "cookie-parser";
+import cors from "cors"
+
+export const app = express();
+
 app.use(cors({
     origin : "https://localhost:5173",
     credentials : true
@@ -11,9 +13,12 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/", (res, req)=> res.status(200).json({message : "backend is running"}) )
+app.use("/api/auth", authRoutes)
 
-app.listen(prompt, ()=>{
+app.get("/", (req, res)=> res.status(200).json({message : "backend is running"}) )
+
+const port = 4500;
+app.listen(port, ()=>{
     console.log(`server listening at port ${port}`)
 })
 
