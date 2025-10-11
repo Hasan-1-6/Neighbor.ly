@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Dashboard from './user/Dashboard'
 import Grievances from './user/Grievances'
-import Members from './user/Members'
+import UserMembers from './user/UserMembers'
 import Sidebar from './sides/Sidebar'
 import Footer from './sides/Footer'
 import Profile from './user/Profile'
@@ -42,7 +42,7 @@ function App() {
       children: [
         { index: true, element: <Dashboard /> },
         { path: '/grev', element: <Grievances /> },
-        { path: '/members', element: <Members /> },
+        { path: '/members', element: <UserMembers /> },
         { path: '/pro', element: <Profile /> },
         { path: '/notification', element: <Notification /> },
         { path: '/setting', element: <Setting /> },
