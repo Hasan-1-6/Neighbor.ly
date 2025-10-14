@@ -1,30 +1,70 @@
 import { useState } from 'react';
 import AnimatedBackground from './AnimatedBackground';
+import { useContext } from 'react';
+import { AppContext } from '../App';
+import { toast } from 'react-hot-toast'
+import isEmail from 'validator/lib/isEmail'
 
 const LoginCard = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [inpField, setInpField] = useState('');
+  const [passwordField, setPasswordField] = useState('')
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const url = import.meta.env.VITE_APP_BACKEND_URL
+
+
+  const { setRole, setLoggedIn, setUser, role } = useContext(AppContext);
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Simulate login process
-    setTimeout(() => {
-      setIsLoading(false);
-      setIsSuccess(true);
+    if(!isEmail(inpField) && isAdmin){
+        toast.error('Enter a valid Email');
+        return;
+    }
+    if(passwordField.length < 6){
+        toast.error('Password is too short');
+        return;
+    }
+    try{
+      const fetchUrl = isAdmin ? `${url}/api/auth/loginAdmin` : `${url}/api/auth/loginUser`;
+      const resp = await fetch(`${fetchUrl}`,{
+        method : "POST",
+        headers : {
+          "Content-Type" : "application/json",
+        },
+        credentials : "include",
+        body : JSON.stringify({
+          id : inpField,
+          password : passwordField
+        })  
+      })
+      const data = await resp.json();
+      if(!resp.ok){
+        toast.error(data.message)
+        return;
+      }
+      // console.log(data.role);
+      // setRole(data.role);
       
-      // Redirect after success (simulated)
-      setTimeout(() => {
-        alert('Login successful! Redirecting...');
-        // window.location.href = 'dashboard.html';
-      }, 1000);
-    }, 1500);
+      setLoggedIn(true)
+      setRole(isAdmin ? "admin" : "user")
+      setUser(data.user)
+      toast.success("logged in succesfully")
+    }catch(err){
+      toast.error('couldnt fetch shit' + err.message)
+    }finally{
+      setIsLoading(false);
+    }
+
+  
+   
   };
 
   return (
@@ -44,19 +84,22 @@ const LoginCard = () => {
         </div>
       </div>
       
-      <h1 className="font-semibold text-2xl text-dark mb-2">Welcome back 👋🏻 Admin</h1>
-      <p className="text-[15px] text-secondary mb-9 leading-relaxed">
+      <h1 className="font-semibold text-2xl text-dark mb-2">Welcome back 👋🏻 {isAdmin ? `Admin` : `Resident`}</h1>
+      {isAdmin && <p className="text-[15px] text-secondary mb-9 leading-relaxed">
         Sign in to manage your society
       </p>
+      }
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit = {handleSubmit}>
         <div className="field">
           <input
             type="text"
-            placeholder="Username"
+            placeholder={isAdmin ? 'E-mail' : 'ID'}
             required
-            autoComplete="username"
+            autoComplete="email"
             className="field-input"
+            value = {inpField}
+            onChange={(e) => setInpField(e.target.value)}
           />
           <svg className="icon-left" aria-hidden="true" viewBox="0 0 24 24" fill="none" strokeWidth="2">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -71,6 +114,8 @@ const LoginCard = () => {
             required
             autoComplete="current-password"
             className="field-input"
+            value = {passwordField}
+            onChange={(e) => setPasswordField(e.target.value)}
           />
           <svg className="icon-left" aria-hidden="true" viewBox="0 0 24 24" fill="none" strokeWidth="2">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
@@ -119,6 +164,7 @@ const LoginCard = () => {
           {isLoading ? 'Logging in...' : isSuccess ? 'Login Successful!' : 'Login'}
         </button>
       </form>
+      <h1 className='mt-2'>{isAdmin ? `Not an admin?` : `Not a user?`} <button className='underline text-green-500 cursor-pointer hover:scale-105' onClick={() => setIsAdmin(prev => !prev) }>Click here</button></h1>
     </div>
     </div>
   );

@@ -33,7 +33,7 @@ model Admin {
   password String
   name String
   role String
-  email String
+  email String @unique
   contact String
 }
 

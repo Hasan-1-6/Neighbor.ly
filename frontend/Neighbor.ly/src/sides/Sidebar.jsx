@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import {Aperture, Home, Users, MessageSquareWarning, UserCircle, Menu, ChevronLeft, X, Settings } from "lucide-react";
+import {Aperture, Home, Users, MessageSquareWarning, UserCircle, Menu, ChevronLeft, X, Settings, LogOutIcon } from "lucide-react";
  import society from "../public/society.png";
  import TopNav from "./Topnav";
+import { AppContext } from "../App";
+import toast from "react-hot-toast";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false); // Desktop collapse
   const [mobileOpen, setMobileOpen] = useState(false); // Mobile toggle
-   const location = useLocation();
-
+  const location = useLocation();
+  const {setLoggedIn, setRole, setUser, role} = useContext(AppContext);
   const menuItems = [
     { name: "Dashboard", icon: <Home size={20} />, path: "/" },
     { name: "Members", icon: <Users size={20} />, path: "/members" },
@@ -16,7 +18,31 @@ const Sidebar = () => {
     { name: "Profile", icon: <UserCircle size={20} />, path: "/pro" },
     { name: "Setting", icon: <Settings size={20} />, path: "/setting"},
   ];
-
+  const handleLogout = async () =>{
+    try{
+      const resp = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/auth/logout`, {
+        method : "POST",
+        headers : {
+          "Content-Type" : "application/json"
+        },
+        credentials : "include",
+        body : JSON.stringify({
+          role : role
+        })
+      })
+      if(!resp.ok){
+        toast.error("Some error occured while logging out");
+        return;
+      }
+      setLoggedIn(false);
+      setRole(null);
+      setUser(null);
+      toast.success("Logged out succesfully");
+    }
+    catch(err){
+      toast.error("Some error occured" + err.message)
+    }          
+  }
   return (
     <>
       {/* Mobile Hamburger */}
@@ -71,7 +97,7 @@ const Sidebar = () => {
         </div>
 
         {/* Menu */}
-        <nav className="flex flex-col mt-4 p-4">
+        <nav className="flex flex-col mt-4 p-4 border">
           {menuItems.map((item, idx) => {
              const active = location.pathname === item.path;
               
@@ -92,6 +118,13 @@ const Sidebar = () => {
             );
           })}
         </nav>
+        <div className="p-4 border mt-auto ">
+          <button 
+          className="hidden ml-auto md:flex p-2 rounded  hover:bg-gray-200"
+          onClick={handleLogout}>
+            <LogOutIcon />
+          </button>
+        </div>
       </aside>
 
       {/* Mobile overlay */}
