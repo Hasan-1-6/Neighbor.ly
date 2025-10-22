@@ -44,7 +44,7 @@ function App() {
         { path: '/grev', element: <Grievances /> },
         { path: '/members', element: <UserMembers /> },
         { path: '/pro', element: <Profile /> },
-        { path: '/notification', element: <Notification /> },
+        //{ path: '/notification', element: <Notification /> },
         { path: '/setting', element: <Setting /> },
         { path: '/account', element: <Account /> },
       ],
