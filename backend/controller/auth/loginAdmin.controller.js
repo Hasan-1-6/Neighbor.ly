@@ -40,7 +40,7 @@ export default async function loginAdmin(req, res){
             secure : false,
             maxAge : 2 * 60 * 60 * 1000
         })
-        console.log(findAdmin);
+     
         return res.status(200).json({user : findAdmin})
     }
     catch(err){

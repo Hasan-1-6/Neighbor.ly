@@ -14,6 +14,6 @@ router.post("/loginAdmin", loginAdmin)
 router.post("/loginUser", loginUser)
 router.post("/registerAdmin", registerAdmin)
 router.post("/registerUser", registerUser)
-router.get("/verifyToken", checkToken, (req, res) => res.status(200).json({role : req.role}))
+router.get("/verifyToken", checkToken, (req, res) => res.status(200).json({role : req.role, user : req.user}))
 router.post("/logout", Logout)
 export default router

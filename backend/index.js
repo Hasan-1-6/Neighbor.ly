@@ -15,7 +15,9 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes)
 
-app.get("/", (req, res)=> res.status(200).json({role : req.role}));
+app.get("/", (req, res)=>{
+    console.log('backend is up bois')
+});
 
 
 const port = process.env.PORT;

@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {Aperture, Home, Users, MessageSquareWarning, UserCircle, Menu, ChevronLeft, X, Settings, LogOutIcon } from "lucide-react";
- import society from "../public/society.png";
- import TopNav from "./Topnav";
+import society from "../public/society.png";
+import TopNav from "./Topnav";
 import { AppContext } from "../App";
 import toast from "react-hot-toast";
 
@@ -48,7 +48,7 @@ const Sidebar = () => {
       {/* Mobile Hamburger */}
       <button
         onClick={() => setMobileOpen(true)}
-        className={`${mobileOpen ? 'hidden' : 'block'} md:hidden fixed top-4 left-4 z-50 bg-stone-700 text-white p-2 rounded-lg shadow`}
+        className={`${mobileOpen ? 'hidden' : 'absolute'} md:hidden fixed top-4 left-4 z-50 bg-stone-700 text-white p-2 rounded-lg shadow`}
       >
         <Menu size={24} />
       </button>
@@ -56,8 +56,8 @@ const Sidebar = () => {
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-0 left-0 h-screen bg-gray-100 text-gray-800 z-40 shadow-lg
-          transform transition-all duration-300
+          md:sticky absolute top-0 left-0 h-screen bg-gray-100 text-gray-800 z-40 shadow-lg
+          transform transition-all duration-300 overflow-y-scroll
           ${mobileOpen ? "translate-x-0 w-64" : "-translate-x-full w-64"} 
           md:translate-x-0 ${collapsed ? "md:w-20" : "md:w-64"}
         `}
@@ -97,7 +97,7 @@ const Sidebar = () => {
         </div>
 
         {/* Menu */}
-        <nav className="flex flex-col mt-4 p-4 border">
+        <nav className="flex flex-col mt-4 p-4 gap-2">
           {menuItems.map((item, idx) => {
              const active = location.pathname === item.path;
               
@@ -118,12 +118,13 @@ const Sidebar = () => {
             );
           })}
         </nav>
-        <div className="p-4 border mt-auto ">
-          <button 
-          className="hidden ml-auto md:flex p-2 rounded  hover:bg-gray-200"
-          onClick={handleLogout}>
-            <LogOutIcon />
+        <div className={`flex items-center gap-3  rounded-xl transition-all duration-200 bg-blue-600 m-4 py-3
+                  justify-center text-white hover:scale-105 active:scale-100 cursor-pointer`}
+                  onClick={handleLogout}>
+          <button>
+            <LogOutIcon  size={20}/>
           </button>
+          {!collapsed && <h1>Logout</h1>}
         </div>
       </aside>
 

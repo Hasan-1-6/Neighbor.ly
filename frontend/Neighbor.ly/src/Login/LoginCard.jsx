@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import AnimatedBackground from './AnimatedBackground';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AppContext } from '../App';
 import { toast } from 'react-hot-toast'
 import isEmail from 'validator/lib/isEmail'
+ 
 
 const LoginCard = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,7 +16,7 @@ const LoginCard = () => {
   const url = import.meta.env.VITE_APP_BACKEND_URL
 
 
-  const { setRole, setLoggedIn, setUser, role } = useContext(AppContext);
+  const { setRole, setLoggedIn, setUser } = useContext(AppContext);
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
@@ -50,12 +51,11 @@ const LoginCard = () => {
         toast.error(data.message)
         return;
       }
-      // console.log(data.role);
-      // setRole(data.role);
       
-      setLoggedIn(true)
-      setRole(isAdmin ? "admin" : "user")
       setUser(data.user)
+      setRole(isAdmin ? "admin" : "user")
+      setLoggedIn(true)
+
       toast.success("logged in succesfully")
     }catch(err){
       toast.error('couldnt fetch shit' + err.message)
@@ -143,7 +143,7 @@ const LoginCard = () => {
           </svg>
         </div>
 
-        <div className="flex justify-start items-center -mt-3 mb-6 text-sm">
+        <div className="flex justify-start items-center ml-1 mt-3 mb-6 text-sm">
           <label className="text-secondary flex items-center gap-1.5 cursor-pointer">
             <input type="checkbox" className="w-4 h-4 accent-primary" />
             Remember me

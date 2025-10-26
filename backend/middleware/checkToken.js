@@ -7,7 +7,7 @@ export default async function checkToken(req, res, next){
     if(!userToken && !adminToken){
         return res.status(403).json({message : 'No token found, please login again'});
     }
-    
+
     try{
         if(userToken){
             const decodedToken = jwt.verify(userToken, process.env.SECRET_KEY);
@@ -20,6 +20,7 @@ export default async function checkToken(req, res, next){
             if(!findUser) return res.status(403).json({message : "Couldnt find any user"}) ;
             req.role = "user";
             req.user = findUser;
+            
             return next();
         }
         if(adminToken){
@@ -32,7 +33,8 @@ export default async function checkToken(req, res, next){
             })
             if(!findAdmin) return res.status(403).json({message : "Couldnt find any Admin"}) ;
             req.role = "admin";
-            req.admin = findAdmin;
+            req.user = findAdmin;
+            
             return next();
         }
     }

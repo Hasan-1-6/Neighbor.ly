@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import Dashboard from './user/Dashboard'
 import Grievances from './user/Grievances'
 import Members from './user/Members'
+import UserMember from './user/UserMember'
+import AdminMember from './admin/AdminMember'
 import Sidebar from './sides/Sidebar'
 import Footer from './sides/Footer'
 import Profile from './user/Profile'
@@ -12,13 +14,16 @@ import './App.css'
 import LoginCard from './Login/LoginCard'
 import { Toaster, toast } from 'react-hot-toast'
 
-const AppContext = createContext();
+
+export const AppContext = createContext();
 
 function App() {
   
   const [loggedIn, setLoggedIn] = useState(false);
   const [role, setRole] = useState(false)
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true);
+  
   
   useEffect(() => {
     console.log('chekcing fir logiged in');
@@ -31,14 +36,20 @@ function App() {
         })
         if(!resp.ok){
           console.log("Token not found Relogin");
+          setLoading(false);
           return;
         }
         const data = await resp.json();
         setRole(data.role);
+        setUser(data.user)
+        console.log(data)
         setLoggedIn(true);
       }
       catch(err){
         console.log("some error occured while verifyin the tokens" + err.message);
+      }
+      finally{
+        setLoading(false)
       }
    }
     testToken();
@@ -49,15 +60,17 @@ function App() {
       path: '/',
       element: (
         <>
-          <div className='flex min-h-screen overflow-hidden'>
+          <div className='flex h-screen overflow-hidden'>
             <Sidebar />
-            <div className='flex-1 flex flex-col overflow-hidden'>
+            <div className='flex-1 flex flex-col'>
               <Topbar />
-              <main className='flex overflow-y-auto relative'>
-                <Outlet />
-              </main>
-              <Footer />
-            </div>
+              <main className="flex-1 overflow-y-auto">
+                <div className="flex flex-col min-h-full">
+                  <Outlet />
+                  <Footer />
+                </div>
+            </main>
+            </div>            
           </div>
         </>
       ),
@@ -70,6 +83,7 @@ function App() {
         { path: '/setting', element: <Setting /> },
         { path: '/account', element: <Account /> },
       ],
+      //user routes
     },
 
   ])
@@ -78,27 +92,31 @@ function App() {
       path: '/',
       element: (
         <>
-          <div className='flex min-h-screen overflow-hidden'>
+          <div className='flex h-screen overflow-hidden'>
             <Sidebar />
-            <div className='flex-1 flex flex-col overflow-hidden'>
+            <div className='flex-1 flex flex-col'>
               <Topbar />
-              <main className='flex overflow-y-auto relative'>
-                <Outlet />
-              </main>
-              <Footer />
-            </div>
+              <main className="flex-1 overflow-y-auto">
+                <div className="flex flex-col min-h-full">
+                  <Outlet />
+                  <Footer />
+                </div>
+            </main>
+            </div>            
           </div>
         </>
+        
       ),
       children: [
         { index: true, element: <Dashboard /> },
         { path: '/grev', element: <Grievances /> },
-        { path: '/members', element: <Members /> },
+        { path: '/members', element: <AdminMember /> },
         { path: '/pro', element: <Profile /> },
         { path: '/notification', element: <Notification /> },
         { path: '/setting', element: <Setting /> },
         { path: '/account', element: <Account /> },
       ],
+      //admin routes
     },
 
   ])
@@ -129,5 +147,4 @@ function App() {
 
   )
 }
-export {AppContext};
 export default App
