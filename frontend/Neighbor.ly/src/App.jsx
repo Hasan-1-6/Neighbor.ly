@@ -13,6 +13,7 @@ import { Notification, Setting, Account } from './sides/Topnav'
 import './App.css'
 import LoginCard from './Login/LoginCard'
 import { Toaster, toast } from 'react-hot-toast'
+import AdminApartments from './admin/AdminApartments'
 
 
 export const AppContext = createContext();
@@ -113,7 +114,7 @@ function App() {
         { path: '/members', element: <AdminMember /> },
         { path: '/pro', element: <Profile /> },
         { path: '/notification', element: <Notification /> },
-        { path: '/setting', element: <Setting /> },
+        { path: '/setting', element: <AdminApartments /> },
         { path: '/account', element: <Account /> },
       ],
       //admin routes
