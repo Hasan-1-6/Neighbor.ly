@@ -15,17 +15,17 @@ datasource db {
 }
 
 model Resident {
-  id    String @id 
+  id    String @id //assign at runtime in backend
   owner String
   contact String
   apart String
   floor Int
-  flat Int @unique
+  flat Int
   password String
   aadhar String?
   dueRent Int @default(0)
-  flatRelation Flats? 
-  paymentHistroy payHistory[]
+  flatRelation Flat? 
+  paymentHistroy PayHistory[]
 }
 
 model Admin {
@@ -37,12 +37,30 @@ model Admin {
   contact String
 }
 
-model Flats {
-  occupiedById String @id
-  apart String
-  floor Int
-  flat Int
-  occupiedBy Resident @relation(fields : [occupiedById], references: [id])  
+model Apartment{
+  id Int @id @default(autoincrement())
+  apartId String //A, B, C
+  FloorCount Int
+  FlatCount Int
+  floors Floor[] 
+}
+
+model Floor{
+  id Int @id @default(autoincrement())
+  floorNum Int   //like 10  for 1 20 for 2 30 for 3 etc
+  apartmentId Int
+  totalFlats Int
+  flats Flat[]
+  apartment Apartment @relation(fields : [apartmentId], references: [id], onDelete: Cascade)
+}
+
+model Flat {
+  id Int @id @default(autoincrement())
+  flatNum Int //like 1 2 3 4 5... for each apart
+  floorId Int
+  floor Floor @relation(fields : [floorId], references : [id])
+  occupiedById String? @unique
+  occupiedBy Resident? @relation(fields : [occupiedById], references: [id], onDelete: Cascade)
 }
 
 model Notifications {
@@ -73,7 +91,7 @@ model History {
   resolvedAt DateTime @default(now())
 }
 
-model payHistory{
+model PayHistory{
   transactionId String @id
   userId String 
   amount Int

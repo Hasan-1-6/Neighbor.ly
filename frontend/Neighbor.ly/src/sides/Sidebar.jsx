@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import {Aperture, Home, Users, MessageSquareWarning, UserCircle, Menu, ChevronLeft, X, Settings, LogOutIcon } from "lucide-react";
+import {Aperture, Home, Users, MessageSquareWarning, UserCircle, Menu, ChevronLeft, X, Settings, LogOutIcon, Building2 } from "lucide-react";
 import society from "../public/society.png";
 import TopNav from "./Topnav";
 import { AppContext } from "../App";
@@ -16,7 +16,6 @@ const Sidebar = () => {
     { name: "Members", icon: <Users size={20} />, path: "/members" },
     { name: "Grievances", icon: <MessageSquareWarning size={20} />, path: "/grev" },
     { name: "Profile", icon: <UserCircle size={20} />, path: "/pro" },
-    { name: "Setting", icon: <Settings size={20} />, path: "/setting"},
   ];
   const handleLogout = async () =>{
     try{

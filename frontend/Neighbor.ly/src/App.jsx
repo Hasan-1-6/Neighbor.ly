@@ -14,7 +14,7 @@ import './App.css'
 import LoginCard from './Login/LoginCard'
 import { Toaster, toast } from 'react-hot-toast'
 import AdminApartments from './admin/AdminApartments'
-
+import UserApartment from './user/UserApartment'
 
 export const AppContext = createContext();
 
@@ -81,7 +81,7 @@ function App() {
         { path: '/members', element: <Members /> },
         { path: '/pro', element: <Profile /> },
         { path: '/notification', element: <Notification /> },
-        { path: '/setting', element: <Setting /> },
+        { path: '/userAparts', element: <UserApartment /> },
         { path: '/account', element: <Account /> },
       ],
       //user routes
@@ -114,7 +114,7 @@ function App() {
         { path: '/members', element: <AdminMember /> },
         { path: '/pro', element: <Profile /> },
         { path: '/notification', element: <Notification /> },
-        { path: '/setting', element: <AdminApartments /> },
+        { path: '/adminAparts', element: <AdminApartments /> },
         { path: '/account', element: <Account /> },
       ],
       //admin routes
