@@ -19,59 +19,59 @@ import UserApartment from './user/UserApartment'
 export const AppContext = createContext();
 
 function App() {
-  
   const [loggedIn, setLoggedIn] = useState(false);
-  const [role, setRole] = useState(false)
-  const [user, setUser] = useState(null)
+  const [role, setRole] = useState(false);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  
-  
+
   useEffect(() => {
-    console.log('chekcing fir logiged in');
-    const testToken = async () =>{
-      try{
-        console.log('fetching and verifying token')
-        const resp = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/auth/verifyToken`,{
-          credentials : 'include',
-          method : "GET",
-        })
-        if(!resp.ok){
+    console.log("chekcing fir logiged in");
+    const testToken = async () => {
+      try {
+        const resp = await fetch(
+          `${import.meta.env.VITE_APP_BACKEND_URL}/api/auth/verifyToken`,
+          {
+            credentials: "include",
+            method: "GET",
+          },
+        );
+        if (!resp.ok) {
           console.log("Token not found Relogin");
           setLoading(false);
           return;
         }
         const data = await resp.json();
         setRole(data.role);
-        setUser(data.user)
-        console.log(data)
+        setUser(data.user);
+        console.log(data);
         setLoggedIn(true);
+      } catch (err) {
+        console.log(
+          "some error occured while verifyin the tokens" + err.message,
+        );
+      } finally {
+        setLoading(false);
       }
-      catch(err){
-        console.log("some error occured while verifyin the tokens" + err.message);
-      }
-      finally{
-        setLoading(false)
-      }
-   }
+    };
     testToken();
-  }, [])
-  
+  }, []);
+
   const userRouter = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: (
         <>
-          <div className='flex h-screen overflow-hidden'>
+          <div className="flex h-screen overflow-hidden">
             <Sidebar />
-            <div className='flex-1 flex flex-col'>
+            <div className="flex-1 flex flex-col">
               <Topbar />
               <main className="flex-1 overflow-y-auto">
                 <div className="flex flex-col min-h-full">
                   <Outlet />
                   <Footer />
                 </div>
-            </main>
-            </div>            
+              </main>
+            </div>
           </div>
         </>
       ),
@@ -86,27 +86,25 @@ function App() {
       ],
       //user routes
     },
-
-  ])
+  ]);
   const adminRouter = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: (
         <>
-          <div className='flex h-screen overflow-hidden'>
+          <div className="flex h-screen overflow-hidden">
             <Sidebar />
-            <div className='flex-1 flex flex-col'>
+            <div className="flex-1 flex flex-col">
               <Topbar />
               <main className="flex-1 overflow-y-auto">
                 <div className="flex flex-col min-h-full">
                   <Outlet />
                   <Footer />
                 </div>
-            </main>
-            </div>            
+              </main>
+            </div>
           </div>
         </>
-        
       ),
       children: [
         { index: true, element: <Dashboard /> },
@@ -119,33 +117,35 @@ function App() {
       ],
       //admin routes
     },
-
-  ])
+  ]);
   return (
-    <AppContext.Provider value={{loggedIn, setLoggedIn, role, setRole, user, setUser}} >
-      <Toaster 
-        position = "top-right"
-        reverseOrder = {false}
-      //   toastOptions={{
-      //       style: {
-      //       borderRadius: '10px',
-      //       background: '#333',
-      //       color: '#fff',
-      //     }}
-      //  }
-      //ENABLE FOR DARK THEMED NOTIFICATIONS 
-        
+    <AppContext.Provider
+      value={{ loggedIn, setLoggedIn, role, setRole, user, setUser }}
+    >
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        //   toastOptions={{
+        //       style: {
+        //       borderRadius: '10px',
+        //       background: '#333',
+        //       color: '#fff',
+        //     }}
+        //  }
+        //ENABLE FOR DARK THEMED NOTIFICATIONS
       />
-          {!loggedIn ?
-          <LoginCard /> 
-        : 
-          role === 'admin' 
-        ?
-          <RouterProvider router = {adminRouter} /> 
-        : 
-          <RouterProvider router = {userRouter} /> }
-    </ AppContext.Provider >
-
-  )
+      {loading ? (
+        <div className="h-screen w-screen flex justify-center items-center">
+          <img src={"/loading.svg"} alt="Loading..." className="w-20" />
+        </div>
+      ) : !loggedIn ? (
+        <LoginCard />
+      ) : role === "admin" ? (
+        <RouterProvider router={adminRouter} />
+      ) : (
+        <RouterProvider router={userRouter} />
+      )}
+    </AppContext.Provider>
+  );
 }
-export default App
+export default App;
