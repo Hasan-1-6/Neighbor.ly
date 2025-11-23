@@ -1,28 +1,13 @@
-import TopNav from 'react'
+import TopNav from "react";
 export function Notification() {
-    return (
-    <>
-    
-    </>
-    )
+  return <></>;
 }
-
-
 
 export function Setting() {
-    return (
-    <>
-    
-    </>
-    )
+  return <></>;
 }
 
-
 export function Account() {
-    return  (
-    <>
-    
-    </>
-    )
+  return <></>;
 }
 export default TopNav;
