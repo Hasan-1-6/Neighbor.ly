@@ -15,6 +15,7 @@ import LoginCard from './Login/LoginCard'
 import { Toaster, toast } from 'react-hot-toast'
 import AdminApartments from './admin/AdminApartments'
 import UserApartment from './user/UserApartment'
+import LandingPage from './land/LandingPage'
 
 export const AppContext = createContext();
 
@@ -56,6 +57,18 @@ function App() {
     testToken();
   }, [])
   
+    const publicRouter = createBrowserRouter([
+  {
+    path: '/',
+    element: <LandingPage />
+  },
+  {
+    path: '/login',
+    element: <LoginCard />
+  }
+]);
+
+
   const userRouter = createBrowserRouter([
     {
       path: '/',
@@ -137,7 +150,7 @@ function App() {
         
       />
           {!loggedIn ?
-          <LoginCard /> 
+          <RouterProvider router={publicRouter} /> 
         : 
           role === 'admin' 
         ?
