@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Members = () => {
-  return (
-    <div className='h-screen'>Members</div>
-  )
-}
+  return <div className="h-screen">Members</div>;
+};
 
-export default Members
+export default Members;

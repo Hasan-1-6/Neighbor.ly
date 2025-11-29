@@ -1,6 +1,6 @@
-
-import express from "express"
-import authRoutes from "./routes/auth.routes.js"
+import express from "express";
+import authRoutes from "./routes/auth.routes.js";
+import commonRoutes from "./routes/common.routes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors"
 import dotenv from 'dotenv'
@@ -14,15 +14,14 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/auth", authRoutes)
+app.use("/api/auth", authRoutes);
+app.use("/api/common", commonRoutes);
 
-app.get("/", (req, res)=>{
-    console.log('backend is up bois')
+app.get("/", (req, res) => {
+  console.log("backend is up bois");
 });
 
-console.log(process.env.PORT)
 const port = process.env.PORT;
-app.listen(port, ()=>{
-    console.log(`server listening at port ${port}`)
-})
-
+app.listen(port, () => {
+  console.log(`server listening at port ${port}`);
+});

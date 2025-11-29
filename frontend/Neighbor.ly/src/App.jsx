@@ -12,7 +12,7 @@ import Topbar from './sides/Topbar'
 import { Notification, Setting, Account } from './sides/Topnav'
 import './App.css'
 import LoginCard from './Login/LoginCard'
-import { Toaster, toast } from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast'
 import AdminApartments from './admin/AdminApartments'
 import UserApartment from './user/UserApartment'
 import LandingPage from './land/LandingPage'
@@ -20,73 +20,69 @@ import LandingPage from './land/LandingPage'
 export const AppContext = createContext();
 
 function App() {
-  
   const [loggedIn, setLoggedIn] = useState(false);
-  const [role, setRole] = useState(false)
-  const [user, setUser] = useState(null)
+  const [role, setRole] = useState(false);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  
-  
+
   useEffect(() => {
-    console.log('chekcing fir logiged in');
-    const testToken = async () =>{
-      try{
-        console.log('fetching and verifying token')
-        const resp = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/auth/verifyToken`,{
-          credentials : 'include',
-          method : "GET",
-        })
-        if(!resp.ok){
-          console.log("Token not found Relogin");
+    console.log("checking for logged in");
+    const testToken = async () => {
+      try {
+        const resp = await fetch(
+          `${import.meta.env.VITE_APP_BACKEND_URL}/api/auth/verifyToken`,
+          {
+            credentials: "include",
+            method: "GET",
+          },
+        );
+        if (!resp.ok) {
+          console.log("Token not found. Relogin required.");
           setLoading(false);
           return;
         }
         const data = await resp.json();
         setRole(data.role);
-        setUser(data.user)
-        console.log(data)
+        setUser(data.user);
+        console.log(data);
         setLoggedIn(true);
+      } catch (err) {
+        console.log("Error verifying token: " + err.message);
+      } finally {
+        setLoading(false);
       }
-      catch(err){
-        console.log("some error occured while verifyin the tokens" + err.message);
-      }
-      finally{
-        setLoading(false)
-      }
-   }
+    };
     testToken();
-  }, [])
-  
-    const publicRouter = createBrowserRouter([
-  {
-    path: '/',
-    element: <LandingPage />
-  },
-  {
-    path: '/login',
-    element: <LoginCard />
-  }
-]);
+  }, []);
 
+
+  const publicRouter = createBrowserRouter([
+    {
+      path: '/',
+      element: <LandingPage />
+    },
+    {
+      path: '/login',
+      element: <LoginCard />
+    }
+  ]);
 
   const userRouter = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: (
-        <>
-          <div className='flex h-screen overflow-hidden'>
-            <Sidebar />
-            <div className='flex-1 flex flex-col'>
-              <Topbar />
-              <main className="flex-1 overflow-y-auto">
-                <div className="flex flex-col min-h-full">
-                  <Outlet />
-                  <Footer />
-                </div>
+        <div className="flex h-screen overflow-hidden">
+          <Sidebar />
+          <div className="flex-1 flex flex-col">
+            <Topbar />
+            <main className="flex-1 overflow-y-auto">
+              <div className="flex flex-col min-h-full">
+                <Outlet />
+                <Footer />
+              </div>
             </main>
-            </div>            
           </div>
-        </>
+        </div>
       ),
       children: [
         { index: true, element: <Dashboard /> },
@@ -97,29 +93,25 @@ function App() {
         { path: '/userAparts', element: <UserApartment /> },
         { path: '/account', element: <Account /> },
       ],
-      //user routes
     },
+  ]);
 
-  ])
   const adminRouter = createBrowserRouter([
     {
-      path: '/',
+      path: "/",
       element: (
-        <>
-          <div className='flex h-screen overflow-hidden'>
-            <Sidebar />
-            <div className='flex-1 flex flex-col'>
-              <Topbar />
-              <main className="flex-1 overflow-y-auto">
-                <div className="flex flex-col min-h-full">
-                  <Outlet />
-                  <Footer />
-                </div>
+        <div className="flex h-screen overflow-hidden">
+          <Sidebar />
+          <div className="flex-1 flex flex-col">
+            <Topbar />
+            <main className="flex-1 overflow-y-auto">
+              <div className="flex flex-col min-h-full">
+                <Outlet />
+                <Footer />
+              </div>
             </main>
-            </div>            
           </div>
-        </>
-        
+        </div>
       ),
       children: [
         { index: true, element: <Dashboard /> },
@@ -130,35 +122,30 @@ function App() {
         { path: '/adminAparts', element: <AdminApartments /> },
         { path: '/account', element: <Account /> },
       ],
-      //admin routes
     },
+  ]);
 
-  ])
   return (
-    <AppContext.Provider value={{loggedIn, setLoggedIn, role, setRole, user, setUser}} >
-      <Toaster 
-        position = "top-right"
-        reverseOrder = {false}
-      //   toastOptions={{
-      //       style: {
-      //       borderRadius: '10px',
-      //       background: '#333',
-      //       color: '#fff',
-      //     }}
-      //  }
-      //ENABLE FOR DARK THEMED NOTIFICATIONS 
-        
-      />
-          {!loggedIn ?
-          <RouterProvider router={publicRouter} /> 
-        : 
-          role === 'admin' 
-        ?
-          <RouterProvider router = {adminRouter} /> 
-        : 
-          <RouterProvider router = {userRouter} /> }
-    </ AppContext.Provider >
+    <AppContext.Provider
+      value={{ loggedIn, setLoggedIn, role, setRole, user, setUser }}
+    >
+      <Toaster position="top-right" reverseOrder={false} />
 
-  )
+      {loading ? (
+      
+        <div className="h-screen w-screen flex justify-center items-center">
+          <img src={"/loading.svg"} alt="Loading..." className="w-20" />
+        </div>
+      ) : !loggedIn ? (
+       
+        <RouterProvider router={publicRouter} />
+      ) : role === "admin" ? (
+        <RouterProvider router={adminRouter} />
+      ) : (
+        <RouterProvider router={userRouter} />
+      )}
+    </AppContext.Provider>
+  );
 }
-export default App
+
+export default App;
