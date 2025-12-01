@@ -12,11 +12,12 @@ import Topbar from './sides/Topbar'
 import { Notification, Setting, Account } from './sides/Topnav'
 import './App.css'
 import LoginCard from './Login/LoginCard'
-import { Toaster, toast } from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast'
 import AdminApartments from './admin/AdminApartments'
 import UserApartment from './user/UserApartment'
 import RegisterResidents from './admin/RegisterResidents'
 import ViewResidents from './admin/ViewResidents'
+import LandingPage from './land/LandingPage'
 
 export const AppContext = createContext();
 
@@ -27,7 +28,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("chekcing fir logiged in");
+    console.log("checking for logged in");
     const testToken = async () => {
       try {
         const resp = await fetch(
@@ -38,7 +39,7 @@ function App() {
           },
         );
         if (!resp.ok) {
-          console.log("Token not found Relogin");
+          console.log("Token not found. Relogin required.");
           setLoading(false);
           return;
         }
@@ -47,9 +48,7 @@ function App() {
         setUser(data.user);
         setLoggedIn(true);
       } catch (err) {
-        console.log(
-          "some error occured while verifyin the tokens" + err.message,
-        );
+        console.log("Error verifying token: " + err.message);
       } finally {
         setLoading(false);
       }
@@ -57,24 +56,34 @@ function App() {
     testToken();
   }, []);
 
+
+  const publicRouter = createBrowserRouter([
+    {
+      path: '/',
+      element: <LandingPage />
+    },
+    {
+      path: '/login',
+      element: <LoginCard />
+    }
+  ]);
+
   const userRouter = createBrowserRouter([
     {
       path: "/",
       element: (
-        <>
-          <div className="flex h-screen overflow-hidden">
-            <Sidebar />
-            <div className="flex-1 flex flex-col">
-              <Topbar />
-              <main className="flex-1 overflow-y-auto">
-                <div className="flex flex-col min-h-full">
-                  <Outlet />
-                  <Footer />
-                </div>
-              </main>
-            </div>
+        <div className="flex h-screen overflow-hidden">
+          <Sidebar />
+          <div className="flex-1 flex flex-col">
+            <Topbar />
+            <main className="flex-1 overflow-y-auto">
+              <div className="flex flex-col min-h-full">
+                <Outlet />
+                <Footer />
+              </div>
+            </main>
           </div>
-        </>
+        </div>
       ),
       children: [
         { index: true, element: <Dashboard /> },
@@ -85,27 +94,25 @@ function App() {
         { path: '/userAparts', element: <UserApartment /> },
         { path: '/account', element: <Account /> },
       ],
-      //user routes
     },
   ]);
+
   const adminRouter = createBrowserRouter([
     {
       path: "/",
       element: (
-        <>
-          <div className="flex h-screen overflow-hidden">
-            <Sidebar />
-            <div className="flex-1 flex flex-col">
-              <Topbar />
-              <main className="flex-1 overflow-y-auto">
-                <div className="flex flex-col min-h-full">
-                  <Outlet />
-                  <Footer />
-                </div>
-              </main>
-            </div>
+        <div className="flex h-screen overflow-hidden">
+          <Sidebar />
+          <div className="flex-1 flex flex-col">
+            <Topbar />
+            <main className="flex-1 overflow-y-auto">
+              <div className="flex flex-col min-h-full">
+                <Outlet />
+                <Footer />
+              </div>
+            </main>
           </div>
-        </>
+        </div>
       ),
       children: [
         { index: true, element: <Dashboard /> },
@@ -118,31 +125,23 @@ function App() {
         { path: '/account', element: <Account /> },
         { path: '/registerResident', element : <RegisterResidents/>}
       ],
-      //admin routes
     },
   ]);
+
   return (
     <AppContext.Provider
       value={{ loggedIn, setLoggedIn, role, setRole, user, setUser }}
     >
-      <Toaster
-        position="top-right"
-        reverseOrder={false}
-        //   toastOptions={{
-        //       style: {
-        //       borderRadius: '10px',
-        //       background: '#333',
-        //       color: '#fff',
-        //     }}
-        //  }
-        //ENABLE FOR DARK THEMED NOTIFICATIONS
-      />
+      <Toaster position="top-right" reverseOrder={false} />
+
       {loading ? (
+      
         <div className="h-screen w-screen flex justify-center items-center">
           <img src={"/loading.svg"} alt="Loading..." className="w-20" />
         </div>
       ) : !loggedIn ? (
-        <LoginCard />
+       
+        <RouterProvider router={publicRouter} />
       ) : role === "admin" ? (
         <RouterProvider router={adminRouter} />
       ) : (
@@ -151,4 +150,5 @@ function App() {
     </AppContext.Provider>
   );
 }
+
 export default App;
