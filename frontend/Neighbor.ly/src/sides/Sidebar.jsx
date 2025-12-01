@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  Aperture,
   Home,
   Users,
   MessageSquareWarning,
@@ -12,74 +11,74 @@ import {
   LogOutIcon,
   Building,
 } from "lucide-react";
+
 import society from "../public/society.png";
-import TopNav from "./Topnav";
-import { AppContext } from "../App";
 import toast from "react-hot-toast";
+import { AppContext } from "../App";
 
 const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false); // Desktop collapse
-  const [mobileOpen, setMobileOpen] = useState(false); // Mobile toggle
+  const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const { setLoggedIn, setRole, setUser, role } = useContext(AppContext);
 
   const [menuItems, setMenuItems] = useState([]);
 
+  // Build menu items for role
   useEffect(() => {
-    const baseItems = [
-      { name: "Dashboard", icon: <Home size={20} />, path: "/" },
-      { name: "Members", icon: <Users size={20} />, path: "/members" },
-      {
-        name: "Grievances",
-        icon: <MessageSquareWarning size={20} />,
-        path: "/grev",
-      },
-      { name: "Profile", icon: <UserCircle size={20} />, path: "/pro" },
-    ];
+    if (!role) return;
 
-    if (role === 'admin') {
+    if (role === "admin") {
       setMenuItems([
-        ...baseItems,
+        { name: "Dashboard", icon: <Home size={20} />, path: "/admin" },
+        { name: "Members", icon: <Users size={20} />, path: "/admin/members" },
+        { name: "Grievances", icon: <MessageSquareWarning size={20} />, path: "/admin/grev" },
+        { name: "Profile", icon: <UserCircle size={20} />, path: "/admin/profile" },
         { name: "Apartments", icon: <Building size={20} />, path: "/admin/apartments" },
         { name: "Residents", icon: <Users size={20} />, path: "/admin/residents" },
       ]);
-    } else {
-      setMenuItems(baseItems);
+    }
+
+    if (role === "user") {
+      setMenuItems([
+        { name: "Dashboard", icon: <Home size={20} />, path: "/user" },
+        { name: "Grievances", icon: <MessageSquareWarning size={20} />, path: "/user/grev" },
+        { name: "Contact", icon: <Users size={20} />, path: "/user/members" },
+        { name: "Profile", icon: <UserCircle size={20} />, path: "/user/profile" },
+      ]);
     }
   }, [role]);
 
-
-
+  // Logout handler
   const handleLogout = async () => {
     try {
       const resp = await fetch(
         `${import.meta.env.VITE_APP_BACKEND_URL}/api/auth/logout`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
           credentials: "include",
-          body: JSON.stringify({
-            role: role,
-          }),
-        },
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ role }),
+        }
       );
+
       if (!resp.ok) {
-        toast.error("Some error occured while logging out");
+        toast.error("Some error occurred while logging out");
         return;
       }
+
       setLoggedIn(false);
       setRole(null);
       setUser(null);
-      toast.success("Logged out succesfully");
+      toast.success("Logged out successfully");
     } catch (err) {
-      toast.error("Some error occured" + err.message);
+      toast.error("Error: " + err.message);
     }
   };
+
   return (
     <>
-      {/* Mobile Hamburger */}
+      {/* Mobile toggle */}
       <button
         onClick={() => setMobileOpen(true)}
         className={`${mobileOpen ? "hidden" : "absolute"} md:hidden fixed top-4 left-4 z-50 bg-stone-700 text-white p-2 rounded-lg shadow`}
@@ -97,30 +96,25 @@ const Sidebar = () => {
         `}
       >
         {/* Header */}
-
         <div className="flex items-center justify-between p-4 border-b border-gray-300">
-          <div className="flex items-center gap-2 flex-shrink-0">
-            {
-              <img
-                src={society}
-                alt="logo"
-                className={`rounded-xl object-cover transition-all duration-300 ${collapsed ? "w-6 h-6" : "w-10 h-10"}`}
-              />
-            }
+          <div className="flex items-center gap-2">
+            <img
+              src={society}
+              alt="logo"
+              className={`rounded-xl object-cover transition-all duration-300 ${
+                collapsed ? "w-6 h-6" : "w-10 h-10"
+              }`}
+            />
             {!collapsed && (
               <div className="flex flex-col min-w-0">
-                <h2 className="font-bold text-lg text-gray-800 truncate">
-                  IERT
-                </h2>
-                <p className="text-sm text-gray-500 truncate">
-                  Society Management
-                </p>
+                <h2 className="font-bold text-lg text-gray-800 truncate">IERT</h2>
+                <p className="text-sm text-gray-500 truncate">Society Management</p>
               </div>
             )}
           </div>
 
-          <div className="flex items-center gap-1 flex-shrink-0">
-            {/* Mobile close button */}
+          {/* Collapse + Close buttons */}
+          <div className="flex items-center gap-1">
             <button
               onClick={() => setMobileOpen(false)}
               className="md:hidden p-2 rounded hover:bg-gray-200"
@@ -128,20 +122,19 @@ const Sidebar = () => {
               <X size={20} />
             </button>
 
-            {/* Desktop collapse button */}
             <button
               onClick={() => setCollapsed(!collapsed)}
-              className="hidden md:flex p-2 rounded  hover:bg-gray-200"
+              className="hidden md:flex p-2 rounded hover:bg-gray-200"
             >
               <ChevronLeft
                 size={20}
-                className={` transition-all ${collapsed ? "rotate-180" : ""}`}
+                className={`${collapsed ? "rotate-180" : ""} transition-all`}
               />
             </button>
           </div>
         </div>
 
-        {/* Menu */}
+        {/* Menu List */}
         <nav className="flex flex-col mt-4 p-4 gap-2">
           {menuItems.map((item, idx) => {
             const active = location.pathname === item.path;
@@ -153,27 +146,24 @@ const Sidebar = () => {
                 className={`
                   flex items-center gap-3 p-3 rounded-lg transition-all duration-200
                   ${active ? "bg-blue-100 text-blue-800" : "hover:bg-gray-200"}
-                  ${collapsed ? "justify-center" : "justify-start"}
+                  ${collapsed ? "justify-center" : ""}
                 `}
                 title={collapsed ? item.name : ""}
               >
                 {item.icon}
-                {!collapsed && (
-                  <span className="text-gray-800">{item.name}</span>
-                )}
+                {!collapsed && <span>{item.name}</span>}
               </Link>
             );
           })}
         </nav>
+
+        {/* Logout */}
         <div
-          className={`flex items-center gap-3  rounded-xl transition-all duration-200 bg-blue-600 m-4 py-3
-                  justify-center text-white hover:scale-105 active:scale-100 cursor-pointer`}
           onClick={handleLogout}
+          className="flex items-center gap-3 mx-4 mt-4 p-3 rounded-xl bg-blue-600 text-white justify-center cursor-pointer hover:scale-105 active:scale-100 transition-all"
         >
-          <button>
-            <LogOutIcon size={20} />
-          </button>
-          {!collapsed && <h1>Logout</h1>}
+          <LogOutIcon size={20} />
+          {!collapsed && <span>Logout</span>}
         </div>
       </aside>
 
@@ -189,4 +179,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-

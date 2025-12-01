@@ -12,7 +12,7 @@ const mockNotification = [
 ];
 
 const Topbar = () => {
-  const { user } = useContext(AppContext);
+  const { user, role } = useContext(AppContext);
 
   const [notificationOpen, setnotificationOpen] = useState(false);
   const unreadCount = mockNotification.filter((n) => n.unread).length;
@@ -21,7 +21,7 @@ const Topbar = () => {
     <div className="flex  top-0 w-full items-center justify-between py-4 px-6 border-b-2 border-gray-400">
       <div>
         <h1 className="text-center font-bold text-lg sm:text-2xl">
-          Welcome back, {user.name}!{" "}
+          Welcome back, {role === "admin" ? user.name : user.owner}!
         </h1>
       </div>
 
