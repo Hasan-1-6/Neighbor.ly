@@ -20,9 +20,6 @@ const Profile = () => {
             className="rounded-full h-16 w-16 flex-shrink-0"
           ></img>
           <h1 className="font-bold text-lg sm:2xl ">{user.name}</h1>
-          <button className="border-none ml-auto  bg-blue-600 text-sm sm:text-lg font-bold items-center h-10 p-2  rounded-xl flex flex-row text-white">
-            Edit Profile
-          </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8 ">
           <div>

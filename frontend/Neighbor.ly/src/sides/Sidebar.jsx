@@ -1,15 +1,19 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   Home,
   Users,
   MessageSquareWarning,
   UserCircle,
+  UserCog2,
   Menu,
   ChevronLeft,
   X,
   LogOutIcon,
+  Bell,
+  History,
   Building,
+  Ticket,
 } from "lucide-react";
 
 import society from "../public/society.png";
@@ -30,21 +34,26 @@ const Sidebar = () => {
 
     if (role === "admin") {
       setMenuItems([
-        { name: "Dashboard", icon: <Home size={20} />, path: "/admin" },
-        { name: "Members", icon: <Users size={20} />, path: "/admin/members" },
-        { name: "Grievances", icon: <MessageSquareWarning size={20} />, path: "/admin/grev" },
-        { name: "Profile", icon: <UserCircle size={20} />, path: "/admin/profile" },
-        { name: "Apartments", icon: <Building size={20} />, path: "/admin/apartments" },
-        { name: "Residents", icon: <Users size={20} />, path: "/admin/residents" },
+        { name: "Dashboard", icon: <Home size={20} />, path: "" },
+        { name: "Grievances", icon: <MessageSquareWarning size={20} />, path: "grev" },
+        { name: "Members", icon: <UserCog2 size={20} />, path: "members" },
+        
+        
+        { name: "Apartments", icon: <Building size={20} />, path: "apartments" },
+        { name: "Residents", icon: <Users size={20} />, path: "residents" },
+        { name: "Notify", icon: <Bell size={20} />, path: "create-ticket" },
+        { name: "Notification History", icon: <History size={20} />, path: "notification-history" },
+        { name: "Profile", icon: <UserCircle size={20} />, path: "profile" },
       ]);
     }
 
     if (role === "user") {
       setMenuItems([
-        { name: "Dashboard", icon: <Home size={20} />, path: "/user" },
-        { name: "Grievances", icon: <MessageSquareWarning size={20} />, path: "/user/grev" },
-        { name: "Contact", icon: <Users size={20} />, path: "/user/members" },
-        { name: "Profile", icon: <UserCircle size={20} />, path: "/user/profile" },
+        { name: "Dashboard", icon: <Home size={20} />, path: "" },
+        { name: "Grievances", icon: <MessageSquareWarning size={20} />, path: "grev" },
+        { name: "Contact", icon: <Users size={20} />, path: "members" },
+        { name: "Profile", icon: <UserCircle size={20} />, path: "profile" },
+        { name: "Notification History", icon: <Ticket size={20} />, path: "notification-history" },
       ]);
     }
   }, [role]);
@@ -137,22 +146,21 @@ const Sidebar = () => {
         {/* Menu List */}
         <nav className="flex flex-col mt-4 p-4 gap-2">
           {menuItems.map((item, idx) => {
-            const active = location.pathname === item.path;
-
             return (
-              <Link
+              <NavLink
                 key={idx}
                 to={item.path}
-                className={`
-                  flex items-center gap-3 p-3 rounded-lg transition-all duration-200
-                  ${active ? "bg-blue-100 text-blue-800" : "hover:bg-gray-200"}
-                  ${collapsed ? "justify-center" : ""}
-                `}
+                end={item.path === ""}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 p-3 rounded-lg transition-all duration-200 ${
+                    isActive ? "bg-blue-100 text-blue-800" : "hover:bg-gray-200"
+                  } ${collapsed ? "justify-center" : ""}`
+                }
                 title={collapsed ? item.name : ""}
               >
                 {item.icon}
                 {!collapsed && <span>{item.name}</span>}
-              </Link>
+              </NavLink>
             );
           })}
         </nav>

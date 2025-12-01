@@ -5,10 +5,14 @@ import {
   Send,
   MessageCircleWarning,
   MegaphoneIcon,
+  MessageSquareWarning,
   UserPlus,
   Building2,
   FileText,
-  Users
+  Users,
+  UserPlus2,
+  UserCog2,
+  History
 } from "lucide-react";
 
 import { AppContext } from "../App";
@@ -41,9 +45,11 @@ const Dashboard = () => {
 
   // ADMIN ACTIONS (with links)
   const adminActions = [
-    { title: "Society Members", desc: "Find & contact members", icon: <UserPlus size={22} />, to: "/admin/members" },
-    { title: "View Apartments", desc: "View apartments, floors & flats", icon: <FileText size={22} />, to: "/admin/apartments" },
-    { title: "Register Resident", desc: "Register a new resident", icon: <FileText size={22} />, to: "/admin/register" },
+    { title: "Grievances", desc: "Handle Complaint tickets", icon: <MessageSquareWarning size={22} />, to: "/admin/grev" },
+    { title: "Society Members", desc: "Find & Add members", icon: <UserCog2 size={22} />, to: "/admin/members" },
+    { title: "View Apartments", desc: "View apartments, floors & flats", icon: <Building2 size={22} />, to: "/admin/apartments" },
+    { title: "Complaint History", desc: "View resolved tickets & complaints", icon: <History size={22} />, to: "notification-history" },
+    { title: "Register Resident", desc: "Register a new resident", icon: <UserPlus2 size={22} />, to: "/admin/register" },
     { title: "View Residents", desc: "View & manage residents", icon: <Users size={22} />, to: "/admin/residents" },
   ];
 

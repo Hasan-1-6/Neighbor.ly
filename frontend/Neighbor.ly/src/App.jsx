@@ -4,20 +4,21 @@ import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-rou
 import Dashboard from "./user/Dashboard";
 import Grievances from "./user/Grievances";
 import Members from "./user/Members";
-import UserMember from "./user/UserMember";
 import AdminMember from "./admin/AdminMember";
 import Sidebar from "./sides/Sidebar";
 import Footer from "./sides/Footer";
-import Profile from "./user/Profile";
+import Profile from "./shared/Profile";
 import Topbar from "./sides/Topbar";
 import { Notification, Account } from "./sides/Topnav";
 import LoginCard from "./Login/LoginCard";
 import { Toaster } from "react-hot-toast";
 import AdminApartments from "./admin/AdminApartments";
-import UserApartment from "./user/UserApartment";
 import RegisterResidents from "./admin/RegisterResidents";
 import ViewResidents from "./admin/ViewResidents";
 import LandingPage from "./land/LandingPage";
+import CreateTicket from "./admin/CreateTicket";
+import NotificationHistory from "./shared/NotificationHistory";
+import AdminGrievances from "./admin/AdminGrievances";
 import "./App.css";
 
 export const AppContext = createContext();
@@ -95,6 +96,7 @@ function App() {
         { path: "members", element: <Members /> },
         { path: "profile", element: <Profile /> },
         { path: "notification", element: <Notification /> },
+        { path: "notification-history", element: <NotificationHistory /> },
         // { path: "apartments", element: <UserApartment /> },
         { path: "account", element: <Account /> },
       ],
@@ -107,7 +109,7 @@ function App() {
         loggedIn && role === "admin" ? <Layout /> : <Navigate to="/login" />,
       children: [
         { index: true, element: <Dashboard /> },
-        { path: "grev", element: <Grievances /> },
+        { path: "grev", element: <AdminGrievances /> },
         { path: "members", element: <AdminMember /> },
         { path: "profile", element: <Profile /> },
         { path: "notification", element: <Notification /> },
@@ -115,6 +117,8 @@ function App() {
         { path: "residents", element: <ViewResidents /> },
         { path: "register", element: <RegisterResidents /> },
         { path: "account", element: <Account /> },
+        { path: "create-ticket", element: <CreateTicket /> },
+        { path: "notification-history", element: <NotificationHistory /> },
       ],
     },
   ]);

@@ -2,6 +2,7 @@ import express from "express";
 import authRoutes from "./routes/auth.routes.js";
 import commonRoutes from "./routes/common.routes.js";
 import adminRoutes from "./routes/admin.routes.js"
+import notificationRoutes from "./routes/notifications.routes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors"
 import dotenv from 'dotenv'
@@ -18,6 +19,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/common", commonRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 app.get("/", (req, res) => {
   console.log("backend is up bois");
