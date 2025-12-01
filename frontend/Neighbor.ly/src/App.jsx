@@ -15,6 +15,8 @@ import LoginCard from './Login/LoginCard'
 import { Toaster, toast } from 'react-hot-toast'
 import AdminApartments from './admin/AdminApartments'
 import UserApartment from './user/UserApartment'
+import RegisterResidents from './admin/RegisterResidents'
+import ViewResidents from './admin/ViewResidents'
 
 export const AppContext = createContext();
 
@@ -43,7 +45,6 @@ function App() {
         const data = await resp.json();
         setRole(data.role);
         setUser(data.user);
-        console.log(data);
         setLoggedIn(true);
       } catch (err) {
         console.log(
@@ -112,8 +113,10 @@ function App() {
         { path: '/members', element: <AdminMember /> },
         { path: '/pro', element: <Profile /> },
         { path: '/notification', element: <Notification /> },
-        { path: '/adminAparts', element: <AdminApartments /> },
+        { path: '/admin/apartments', element: <AdminApartments /> },
+        { path: '/admin/residents', element: <ViewResidents /> },
         { path: '/account', element: <Account /> },
+        { path: '/registerResident', element : <RegisterResidents/>}
       ],
       //admin routes
     },

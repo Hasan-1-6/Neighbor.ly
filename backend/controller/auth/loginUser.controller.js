@@ -41,7 +41,6 @@ export default async function loginUser(req, res) {
       maxAge: 2 * 60 * 60 * 1000,
     });
     console.log("Token Set !!");
-    console.log(findUser);
     return res.status(200).json({ user: findUser });
   } catch (err) {
     return res.status(500).json({ message: err.message });

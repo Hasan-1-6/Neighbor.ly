@@ -58,9 +58,9 @@ model Flat {
   id Int @id @default(autoincrement())
   flatNum Int //like 1 2 3 4 5... for each apart
   floorId Int
-  floor Floor @relation(fields : [floorId], references : [id])
+  floor Floor @relation(fields : [floorId], references : [id], onDelete: Cascade)
   occupiedById String? @unique
-  occupiedBy Resident? @relation(fields : [occupiedById], references: [id], onDelete: Cascade)
+  occupiedBy Resident? @relation(fields : [occupiedById], references: [id], onDelete : SetNull)
 }
 
 model Notifications {

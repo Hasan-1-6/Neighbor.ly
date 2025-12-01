@@ -30,6 +30,7 @@ const AdminMembersList = () => {
         );
         if (!resp.ok) {
           toast.error(`Some error occured`);
+          return;
         }
         const data = await resp.json();
         setAdminData(data);

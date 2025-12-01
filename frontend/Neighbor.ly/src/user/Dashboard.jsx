@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Building2,
   FileText,
@@ -8,14 +8,18 @@ import {
   Phone,
   Send,
   Siren,
+  Users,
   ToolCase,
   UserPlus,
   Wallet,
 } from "lucide-react";
 
 import { useNavigate, Link } from "react-router-dom";
+import { AppContext } from "../App";
+
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { role } = useContext(AppContext);
   return (
     <>
       <main className="relative w-full h-screen flex-1 pt-20  p-4 md:p-6">
@@ -107,14 +111,34 @@ const Dashboard = () => {
               <p>Search society documents</p>
               {/* <button className='border-none rounded-lg p-2 bg-cyan-800 text-white font-bold mt-4'>Find</button> */}
             </div>
-            <Link to='/adminAparts'><div className='bg-violet-300 border py-10 border-cyan-200 rounded-xl p-6 text-center hover:scale-105 cursor-pointer transition'>
-              <div className='mx-auto bg-violet-200 h-12 w-12 rounded-full flex items-center justify-center'>
-                <span><FileText size={22} /></span>
-              </div>
-              <h3 className='text-violet-700 font-bold text-2xl'>View Apartments</h3>
-              <p>View apartments, flats and room</p>
-            </div>
-            </Link>
+            {role === 'admin' &&
+              <>
+                <Link to='/admin/apartments'><div className='bg-violet-300 border py-10 border-cyan-200 rounded-xl p-6 text-center hover:scale-105 cursor-pointer transition'>
+                  <div className='mx-auto bg-violet-200 h-12 w-12 rounded-full flex items-center justify-center'>
+                    <span><FileText size={22} /></span>
+                  </div>
+                  <h3 className='text-violet-700 font-bold text-2xl'>View Apartments</h3>
+                  <p>View apartments, flats and room</p>
+                </div>
+                </Link>
+                <Link to='/registerResident'><div className='bg-violet-300 border py-10 border-cyan-200 rounded-xl p-6 text-center hover:scale-105 cursor-pointer transition'>
+                  <div className='mx-auto bg-violet-200 h-12 w-12 rounded-full flex items-center justify-center'>
+                    <span><FileText size={22} /></span>
+                  </div>
+                  <h3 className='text-violet-700 font-bold text-2xl'>Register Resident</h3>
+                  <p>Register a new Resident</p>
+                </div>
+                </Link>
+                <Link to='/admin/residents'><div className='bg-violet-300 border py-10 border-cyan-200 rounded-xl p-6 text-center hover:scale-105 cursor-pointer transition'>
+                  <div className='mx-auto bg-violet-200 h-12 w-12 rounded-full flex items-center justify-center'>
+                    <span><Users size={22} /></span>
+                  </div>
+                  <h3 className='text-violet-700 font-bold text-2xl'>View Residents</h3>
+                  <p>View and manage residents</p>
+                </div>
+                </Link>
+              </>
+            }
           </div>
         </div>
 
@@ -123,4 +147,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Dashboard;

@@ -1,10 +1,11 @@
-import prisma from "../../db/postgresql";
+import prisma from "../../db/postgresql.js";
 
 export default async function createApart(req, res) {
   if (req.role != "admin")
     return res.status(403).json({ message: "unauthorized action" });
 
-  const { floors, flats } = req.body;
+  const floors = Number(req.body.floors)
+  const flats = Number(req.body.flats)
 
   const floorQuery = Array.from({ length: floors }, (elem, i) => ({
     floorNum: (1 + i) * 10,
@@ -17,7 +18,7 @@ export default async function createApart(req, res) {
   }));
 
   try {
-    const lastApart = await prisma.apartment.findFirst({
+    const lastApart = await prisma.Apartment.findFirst({
       orderBy: { id: "desc" },
     });
     const nextApartId = lastApart
@@ -26,15 +27,17 @@ export default async function createApart(req, res) {
 
     const createQuery = {
       apartId: nextApartId,
-      totalFloors: floors,
+      FloorCount: floors,
+      FlatCount : flats,
       floors: {
         create: floorQuery,
       },
     };
 
-    await prisma.Apartment.create({ data: createQuery });
-    return res.status(200).json({ message: "Apartment created succesfully" });
+    const createdData = await prisma.Apartment.create({ data: createQuery });
+    return res.status(200).json({...createdData, occupied : 0});
   } catch (err) {
-    return res.status(500).json({ message: "Internal server error occured" });
+    console.error("CreateApart Error:", err);
+    return res.status(500).json({ message: err.message });
   }
 }

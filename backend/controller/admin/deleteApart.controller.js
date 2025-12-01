@@ -1,4 +1,4 @@
-import prisma from "../../db/postgresql";
+import prisma from "../../db/postgresql.js";
 
 export default async function deleteApart(req, res) {
   if (req.role != "admin")
@@ -17,11 +17,11 @@ export default async function deleteApart(req, res) {
   try {
     await prisma.Apartment.delete({
       where: {
-        id: id,
+        id: Number(id),
       },
     });
     return res.status(200).json({ message: "Apartment deleted succefully" });
   } catch (err) {
-    return res.status(500).json({ message: "Server error occured" });
+    return res.status(500).json({ message: err.message });
   }
 }

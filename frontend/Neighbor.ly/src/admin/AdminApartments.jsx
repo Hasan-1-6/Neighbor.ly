@@ -1,42 +1,105 @@
-import React, { useState } from 'react'
-import { Trash } from 'lucide-react'
-
-const initialData = [
-  { apartment: "A1", floor: 2, room: 204, available: true },
-  { apartment: "A2", floor: 3, room: 305, available: false },
-  { apartment: "B1", floor: 1, room: 101, available: true }
-]
+import React, { useEffect, useState } from 'react'
+import { CreditCard, Trash } from 'lucide-react'
+import toast from 'react-hot-toast'
 
 const AdminApartments = () => {
 
-  const [apartmentData, setApartmentData] = useState(initialData)
+  const [apartmentData, setApartmentData] = useState([])
 
   const [showForm, setShowForm] = useState(false)
 
   const [formValues, setFormValues] = useState({
-    apartment: "",
     floor: "",
     room: ""
   })
 
-  const handleDelete = (index) => {
-    const updatedList = apartmentData.filter((_, i) => i !== index)
-    setApartmentData(updatedList)
+  useEffect(() =>{
+      const getAparts = async() =>{
+       try{
+        const resp = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/admin/viewAparts`,
+          {
+            credentials : "include",
+            method : "GET"
+          })
+          if(!resp.ok){
+            toast.error(`Error : ${resp.status}`)
+            return;
+          }
+          const data = await resp.json();
+          setApartmentData(data);
+       }catch(err){
+        toast.error(`Error : ${err.message}`)
+       }
+      }
+      getAparts();
+      
+    }
+    ,[])
+
+  const handleDelete = async (index, id, apart) => {
+    console.log(id + 'thas id, this apart' + apart);
+    try{
+      const resp = await fetch(`${import.meta.env.VITE_APP_BACKEND_URL}/api/admin/deleteApart`,
+        {
+          credentials : "include",
+          method : "POST",
+          headers : {
+            "Content-type" : 'application/json',
+          },
+          body : JSON.stringify({
+            apartName : apart,
+            id : id,
+          })
+        }
+      )
+      const data = await resp.json();
+      if(!resp.ok){
+        toast.error(data.message)
+        return;
+      }
+      const updatedList = apartmentData.filter((_, i) => i !== index)
+      setApartmentData(updatedList)
+    }
+    catch(err){
+      toast.error(`Error : ${err.message}`);
+    }
   }
 
-  const handleAdd = (e) => {
+  const handleAdd = async (e) => {
     e.preventDefault()
-
-    const newEntry = {
-      apartment: formValues.apartment,
-      floor: formValues.floor,
-      room: formValues.room,
-      available: true
+    let newData;
+    try{
+      const resp = await fetch(
+          `${import.meta.env.VITE_APP_BACKEND_URL}/api/admin/createApart`,
+          {
+            credentials: "include",
+            method: "POST",
+            headers : {
+              'Content-type' : "application/json"
+            },
+            body : JSON.stringify({
+              floors : formValues.floor,
+              flats : formValues.room
+            }) 
+          },
+        );
+        if(!resp.ok){
+          toast.error(`Error : Resp wasnt okay`)
+          return;
+        }
+        newData = await resp.json();
+        console.log(newData)
+    }catch(err){
+      toast.error(`Error : ${err.message}`)
+    }
+    finally{
+      setFormValues({floor: "", room: "" })
+      setShowForm(false)
     }
 
-    setApartmentData([...apartmentData, newEntry])
-    setFormValues({ apartment: "", floor: "", room: "" })
-    setShowForm(false)
+    if(newData != null) setApartmentData([...apartmentData, newData])
+      console.log(apartmentData)
+    
   }
 
   return (
@@ -62,7 +125,7 @@ const AdminApartments = () => {
 
             <form onSubmit={handleAdd} className="flex flex-col gap-3">
 
-              <input
+              {/* <input
                 type="text"
                 placeholder="Apartment (A1...)"
                 value={formValues.apartment}
@@ -71,7 +134,7 @@ const AdminApartments = () => {
                 }
                 className="border p-2 rounded"
                 required
-              />
+              /> */}
 
               <input
                 type="number"
@@ -80,6 +143,8 @@ const AdminApartments = () => {
                 onChange={(e) =>
                   setFormValues({ ...formValues, floor: e.target.value })
                 }
+                min='1'
+                max='20'
                 className="border p-2 rounded"
                 required
               />
@@ -87,10 +152,12 @@ const AdminApartments = () => {
               <input
                 type="number"
                 placeholder="Room"
-                value={formValues.room}
+                value={formValues.flat}
                 onChange={(e) =>
                   setFormValues({ ...formValues, room: e.target.value })
                 }
+                min='1'
+                max='20'
                 className="border p-2 rounded"
                 required
               />
@@ -124,24 +191,24 @@ const AdminApartments = () => {
               <th className='border border-gray-400 px-2 py-2 md:px-4 md:py-3 text-xs md:text-sm'>Apartment</th>
               <th className='border border-gray-400 px-2 py-2 md:px-4 md:py-3 text-xs md:text-sm'>Floor</th>
               <th className='border border-gray-400 px-2 py-2 md:px-4 md:py-3 text-xs md:text-sm'>Room</th>
-              <th className='border border-gray-400 px-2 py-2 md:px-4 md:py-3 text-xs md:text-sm'>Available</th>
+              <th className='border border-gray-400 px-2 py-2 md:px-4 md:py-3 text-xs md:text-sm'>occupied</th>
               <th className='border border-gray-400 px-2 py-2 w-16'>Delete</th>
             </tr>
           </thead>
 
           <tbody>
-            {apartmentData.map((item, index) => (
+            {apartmentData && apartmentData.map((item, index) => (
               <tr key={index}>
-                <td className='border border-gray-400 px-2 py-2 md:px-4 md:py-3'>{item.apartment}</td>
-                <td className='border border-gray-400 px-2 py-2 md:px-4 md:py-3'>{item.floor}</td>
-                <td className='border border-gray-400 px-2 py-2 md:px-4 md:py-3'>{item.room}</td>
+                <td className='border border-gray-400 px-2 py-2 md:px-4 md:py-3'>{item.apartId}</td>
+                <td className='border border-gray-400 px-2 py-2 md:px-4 md:py-3'>{item.FloorCount}</td>
+                <td className='border border-gray-400 px-2 py-2 md:px-4 md:py-3'>{item.FlatCount}</td>
                 <td className='border border-gray-400 px-2 py-2 md:px-4 md:py-3'>
-                  {item.available ? "Yes" : "No"}
+                  {item.occupied}
                 </td>
 
                 <td className='border border-gray-400 px-2 py-2 w-16'>
                   <button
-                    onClick={() => handleDelete(index)}
+                    onClick={() => handleDelete(index, item.id, item.apartId)}
                     className='text-red-600 hover:text-red-800'
                   >
                     <Trash size={22} />

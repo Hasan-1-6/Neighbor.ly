@@ -1,11 +1,21 @@
 import express from "express";
-import checkToken from "../middleware/checkToken";
-import createApart from "../controller/admin/createApart.controller";
-import deleteApart from "../controller/admin/deleteApart.controller";
-import viewApart from "../controller/admin/viewApart.controller";
+import checkToken from "../middleware/checkToken.js";
+import createApart from "../controller/admin/createApart.controller.js";
+import deleteApart from "../controller/admin/deleteApart.controller.js";
+import viewApart from "../controller/admin/viewApart.controller.js";
+import viewFloors from "../controller/admin/viewFloors.controller.js";
+import viewFlats from "../controller/admin/viewFlats.controller.js";
+import viewResidents from "../controller/admin/viewResidents.controller.js";
+import deleteResident from "../controller/admin/deleteResident.controller.js";
 
 const router = express.Router();
 
-router.post("/admin/createApart", checkToken, createApart);
-router.post("/admin/deleteApart", checkToken, deleteApart);
-router.get("/admin/viewAparts", checkToken, viewApart);
+router.post("/createApart", checkToken, createApart);
+router.post("/deleteApart", checkToken, deleteApart);
+router.get("/viewAparts", checkToken, viewApart);
+router.post("/viewFloors", checkToken, viewFloors);
+router.post("/viewFlats", checkToken, viewFlats);
+router.get("/viewResidents", checkToken, viewResidents);
+router.post("/deleteResident", checkToken, deleteResident);
+
+export default router;

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   Aperture,
@@ -9,8 +9,8 @@ import {
   Menu,
   ChevronLeft,
   X,
-  Settings,
   LogOutIcon,
+  Building,
 } from "lucide-react";
 import society from "../public/society.png";
 import TopNav from "./Topnav";
@@ -22,16 +22,34 @@ const Sidebar = () => {
   const [mobileOpen, setMobileOpen] = useState(false); // Mobile toggle
   const location = useLocation();
   const { setLoggedIn, setRole, setUser, role } = useContext(AppContext);
-  const menuItems = [
-    { name: "Dashboard", icon: <Home size={20} />, path: "/" },
-    { name: "Members", icon: <Users size={20} />, path: "/members" },
-    {
-      name: "Grievances",
-      icon: <MessageSquareWarning size={20} />,
-      path: "/grev",
-    },
-    { name: "Profile", icon: <UserCircle size={20} />, path: "/pro" },
-  ];
+
+  const [menuItems, setMenuItems] = useState([]);
+
+  useEffect(() => {
+    const baseItems = [
+      { name: "Dashboard", icon: <Home size={20} />, path: "/" },
+      { name: "Members", icon: <Users size={20} />, path: "/members" },
+      {
+        name: "Grievances",
+        icon: <MessageSquareWarning size={20} />,
+        path: "/grev",
+      },
+      { name: "Profile", icon: <UserCircle size={20} />, path: "/pro" },
+    ];
+
+    if (role === 'admin') {
+      setMenuItems([
+        ...baseItems,
+        { name: "Apartments", icon: <Building size={20} />, path: "/admin/apartments" },
+        { name: "Residents", icon: <Users size={20} />, path: "/admin/residents" },
+      ]);
+    } else {
+      setMenuItems(baseItems);
+    }
+  }, [role]);
+
+
+
   const handleLogout = async () => {
     try {
       const resp = await fetch(
@@ -171,3 +189,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
