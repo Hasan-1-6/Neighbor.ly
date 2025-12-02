@@ -14,6 +14,8 @@ import {
   History,
   Building,
   Ticket,
+  BookAlert,
+  CreditCard,
 } from "lucide-react";
 
 import society from "../public/society.png";
@@ -43,6 +45,7 @@ const Sidebar = () => {
         { name: "Residents", icon: <Users size={20} />, path: "residents" },
         { name: "Notify", icon: <Bell size={20} />, path: "create-ticket" },
         { name: "Notification History", icon: <History size={20} />, path: "notification-history" },
+        // { name: "Payment History", icon: <CreditCard size={20} />, path: "payment-history" },
         { name: "Profile", icon: <UserCircle size={20} />, path: "profile" },
       ]);
     }
@@ -50,10 +53,11 @@ const Sidebar = () => {
     if (role === "user") {
       setMenuItems([
         { name: "Dashboard", icon: <Home size={20} />, path: "" },
-        { name: "Grievances", icon: <MessageSquareWarning size={20} />, path: "grev" },
-        { name: "Contact", icon: <Users size={20} />, path: "members" },
+        { name: "Raise an issue", icon: <MessageSquareWarning size={20} />, path: "create-grievance" },
+        { name: "My Complaints", icon: <BookAlert size={20} />, path: "grievance-history" },
+        { name: "Contact Member", icon: <Users size={20} />, path: "members" },
+        { name: "Complaint History", icon: <History size={20} />, path: "notification-history" },
         { name: "Profile", icon: <UserCircle size={20} />, path: "profile" },
-        { name: "Notification History", icon: <Ticket size={20} />, path: "notification-history" },
       ]);
     }
   }, [role]);

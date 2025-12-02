@@ -18,14 +18,14 @@ const Topbar = () => {
   const unreadCount = mockNotification.filter((n) => n.unread).length;
 
   return (
-    <div className="flex  top-0 w-full items-center justify-between py-4 px-6 border-b-2 border-gray-400">
+    <div className="flex  top-0 w-full items-center justify-between py-6 px-6 border-b-2 border-gray-400">
       <div>
         <h1 className="text-center font-bold text-lg sm:text-2xl">
           Welcome back, {role === "admin" ? user.name : user.owner}!
         </h1>
       </div>
 
-      <div className="relative flex items-center justify-center md:justify-end w-auto md:w-[100px]">
+      {/* <div className="relative flex items-center justify-center md:justify-end w-auto md:w-[100px]">
         <button
           onClick={() => setnotificationOpen(!notificationOpen)}
           className="flex p-2 hover:bg-gray-300 rounded-full cursor-pointer"
@@ -52,7 +52,7 @@ const Topbar = () => {
             ))}
           </ul>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

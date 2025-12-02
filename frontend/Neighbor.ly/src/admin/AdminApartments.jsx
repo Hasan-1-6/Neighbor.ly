@@ -103,7 +103,7 @@ const AdminApartments = () => {
   }
 
   return (
-    <div className='relative w-full flex-1 min-h-screen pt-20 md:p-6 text-sm md:text-base'>
+    <div className='relative w-full flex-1 h-full md:p-6 text-sm md:text-base'>
       
       <h1 className='text-2xl text-center font-bold mb-6'>Apartments</h1>
 

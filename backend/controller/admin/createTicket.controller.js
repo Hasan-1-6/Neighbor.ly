@@ -14,76 +14,88 @@ export const createTicket = async (req, res) => {
     createdBy,
     handledBy,
   } = req.body;
+
   if (!title) {
-  return res.status(400).json({ message: "Title is required" });
-}
+    return res.status(400).json({ message: "Title is required" });
+  }
 
-if (!description) {
-  return res.status(400).json({ message: "Description is required" });
-}
+  if (!description) {
+    return res.status(400).json({ message: "Description is required" });
+  }
 
-if (!apart) {
-  return res.status(400).json({ message: "Apartment is required" });
-}
+  // If a user is creating a ticket, createdBy will be their ID (e.g., A1001)
+  
 
-if (!floor) {
-  return res.status(400).json({ message: "Floor is required" });
-}
+  if (req.role == "admin") {
+    if (!apart) {
+      return res.status(400).json({ message: "Apartment is required" });
+    }
 
-if (!flat) {
-  return res.status(400).json({ message: "Flat is required" });
-}
+    if (!floor) {
+      return res.status(400).json({ message: "Floor is required" });
+    }
 
-if (!status) {
-  return res.status(400).json({ message: "Status is required" });
-}
+    if (!flat) {
+      return res.status(400).json({ message: "Flat is required" });
+    }
+  }
 
-if (isNaN(cost)) {
-  return res.status(400).json({ message: "Cost is required" });
-}
+  if (!status) {
+    return res.status(400).json({ message: "Status is required" });
+  }
 
-if (!createdBy) {
-  return res.status(400).json({ message: "Created By is required" });
-}
+  if (isNaN(cost)) {
+    return res.status(400).json({ message: "Cost must be a number" });
+  }
 
-if (!handledBy) {
-  return res.status(400).json({ message: "Handled By is required" });
-}
+  if (!createdBy) {
+    return res.status(400).json({ message: "Created By is required" });
+  }
 
   try {
-    // 1. Validate Apartment
-    const existingApartment = await prisma.apartment.findFirst({
-      where: { apartId: apart },
-      select: { id: true }, // Only need the ID to link with Floor
-    });
+    if (req.role == "admin") {
+      // 1. Validate Apartment for admin-created tickets
+      const existingApartment = await prisma.apartment.findFirst({
+        where: { apartId: apart },
+        select: { id: true },
+      });
 
-    if (!existingApartment) {
-      return res.status(400).json({ message: "Invalid Apartment ID." });
-    }
+      if (!existingApartment) {
+        return res.status(400).json({ message: "Invalid Apartment ID." });
+      }
 
-    // 2. Validate Floor within the Apartment
-    const existingFloor = await prisma.floor.findFirst({
-      where: {
-        floorNum: Number(floor*10),
-        apartmentId: existingApartment.id,
-      },
-      select: { id: true }, // Only need the ID to link with Flat
-    });
+      // 2. Validate Floor within the Apartment
+      const existingFloor = await prisma.floor.findFirst({
+        where: {
+          floorNum: Number(floor) * 10,
+          apartmentId: existingApartment.id,
+        },
+        select: { id: true },
+      });
 
-    if (!existingFloor) {
-      return res.status(400).json({ message: `Floor ${floor} does not exist in Apartment ${apart}.` });
-    }
+      if (!existingFloor) {
+        return res
+          .status(400)
+          .json({
+            message: `Floor ${floor} does not exist in Apartment ${apart}.`,
+          });
+      }
 
-    // 3. Validate Flat within the Floor
-    const existingFlat = await prisma.flat.findFirst({
-      where: {
-        flatNum: Number(flat),
-        floorId: existingFloor.id,
-      },
-    });
+      // 3. Validate Flat within the Floor
+      const existingFlat = await prisma.flat.findFirst({
+        where: {
+          flatNum: Number(flat),
+          floorId: existingFloor.id,
+        },
+      });
 
-    if (!existingFlat) {
-      return res.status(400).json({ message: `Flat ${flat} does not exist on Floor ${floor}.` });
+      if (!existingFlat) {
+        return res
+          .status(400)
+          .json({
+            message: `Flat ${flat} does not exist on Floor ${floor}.`,
+          });
+      }
     }
 
     const newTicket = await prisma.notifications.create({
@@ -91,18 +103,20 @@ if (!handledBy) {
         ticketId: nanoid(8),
         title,
         description,
-        apart,
-        floor : Number(floor),
-        flat : Number(flat), // Corrected: should be flat not floor
+        apart: apart,
+        floor: Number(floor),
+        flat: Number(flat),
         status,
-        resolutionTime : Number(resolutionTime),
-        cost : Number(cost),
+        resolutionTime: resolutionTime ? Number(resolutionTime) : undefined,
+        cost: Number(cost),
         createdBy,
-        handledBy,
+        handledBy: handledBy || null,
       },
     });
     res.status(201).json(newTicket);
   } catch (error) {
-    res.status(500).json({ message: "Failed to create ticket", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Failed to create ticket", error: error.message });
   }
 };

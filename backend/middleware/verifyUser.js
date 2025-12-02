@@ -1,4 +1,4 @@
-import prisma from "../db/postgresql";
+import prisma from "../db/postgresql.js";
 import jwt from "jsonwebtoken";
 //unused stuff
 export default async function verifyUser(req, res, next) {

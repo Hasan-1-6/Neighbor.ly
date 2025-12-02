@@ -1,9 +1,6 @@
 import prisma from "../../db/postgresql.js";
 
 export default async function viewApart(req, res) {
-  if (req.role !== "admin") {
-    return res.status(403).json({ message: "Unauthorized Access" });
-  }
 
   try {
     const apartments = await prisma.Apartment.findMany();

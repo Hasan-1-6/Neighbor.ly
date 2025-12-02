@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router-dom";
 
 import Dashboard from "./user/Dashboard";
-import Grievances from "./user/Grievances";
+
 import Members from "./user/Members";
 import AdminMember from "./admin/AdminMember";
 import Sidebar from "./sides/Sidebar";
@@ -19,7 +19,15 @@ import LandingPage from "./land/LandingPage";
 import CreateTicket from "./admin/CreateTicket";
 import NotificationHistory from "./shared/NotificationHistory";
 import AdminGrievances from "./admin/AdminGrievances";
+import CreateUserTicket from "./user/CreateUserTicket";
+import UserGrievancesHistory from "./user/UserGrievancesHistory";
+import PayRent from "./user/PayRent";
+import UserApartment from "./user/UserApartment";
+import PaymentHistory from "./admin/PaymentHistory";
+import UpdateDueRent from "./admin/UpdateDueRent";
 import "./App.css";
+import UserGrievances from "./user/UserGrievances";
+import Error from "./Error";
 
 export const AppContext = createContext();
 
@@ -82,23 +90,26 @@ function App() {
   const router = createBrowserRouter([
 
     // PUBLIC ROUTES
-    { path: "/", element: <LandingPage /> },
-    { path: "/login", element: loggedIn ? <Navigate to={`/${role}`} /> : <LoginCard /> },
+    { path: "/", element: <LandingPage />, errorElement: <Error /> },
+    { path: "/login", element: loggedIn ? <Navigate to={`/${role}`} /> : <LoginCard />,  errorElement: <Error /> },
 
     // USER ROUTES
     {
       path: "/user",
       element:
         loggedIn && role === "user" ? <Layout /> : <Navigate to="/login" />,
+      errorElement: <Error />,
       children: [
         { index: true, element: <Dashboard /> },
-        { path: "grev", element: <Grievances /> },
+        { path: "grev", element: <UserGrievances /> },
         { path: "members", element: <Members /> },
         { path: "profile", element: <Profile /> },
         { path: "notification", element: <Notification /> },
         { path: "notification-history", element: <NotificationHistory /> },
-        // { path: "apartments", element: <UserApartment /> },
-        { path: "account", element: <Account /> },
+        { path: "create-grievance", element: <CreateUserTicket /> },
+        { path: "grievance-history", element: <UserGrievancesHistory /> },
+        { path: "pay-rent", element: <PayRent /> },
+        { path: "apartments", element: <UserApartment /> },
       ],
     },
 
@@ -107,6 +118,7 @@ function App() {
       path: "/admin",
       element:
         loggedIn && role === "admin" ? <Layout /> : <Navigate to="/login" />,
+      errorElement: <Error />,
       children: [
         { index: true, element: <Dashboard /> },
         { path: "grev", element: <AdminGrievances /> },
@@ -119,8 +131,11 @@ function App() {
         { path: "account", element: <Account /> },
         { path: "create-ticket", element: <CreateTicket /> },
         { path: "notification-history", element: <NotificationHistory /> },
+        { path: "payment-history", element: <PaymentHistory /> },
+        { path: "update-due-rent", element: <UpdateDueRent /> },
       ],
     },
+    { path: "*", element: <Error /> }
   ]);
 
 
