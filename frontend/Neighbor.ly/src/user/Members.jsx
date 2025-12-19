@@ -2,7 +2,7 @@ import React from "react";
 import { Mail, MapPin, PhoneCall, Users } from "lucide-react";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import loadingIcon from "../assets/loading.svg";
+
 
 const AdminMembersList = () => {
   const [adminData, setAdminData] = useState([]);
@@ -47,7 +47,7 @@ const AdminMembersList = () => {
       <main className="relative w-full h-screen  flex-1 sm:p-1 md:p-6">
         {loading && (
           <div className="h-full w-full absolute flex justify-center items-center">
-            <img src={loadingIcon} alt="Loading icon" className="w-20" />
+            <img src="/loading.svg" alt="Loading icon" className="w-20" />
           </div>
         )}
         {showPopup && (

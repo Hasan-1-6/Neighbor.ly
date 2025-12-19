@@ -135,7 +135,7 @@ const LandingPage = () => {
                         </div>
                         <div className="relative">
                             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                                <img src='src/public/HeroBuilding.jpeg' className="w-full h-auto"></img>
+                                <img src='/HeroBuilding.jpeg' className="w-full h-auto"></img>
                             </div>
                             <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl">
                                 <div className="flex items-center gap-4">
@@ -224,7 +224,7 @@ const LandingPage = () => {
                                             <div className="text-gray-700">Happy Residents</div>
                                         </div>
                                         <div className="rounded-xl overflow-hidden shadow-md">
-                                            <img src='src/public/happysociety.jpeg'></img>
+                                            <img src='happysociety.jpeg'></img>
                                         </div>
                                     </div>
                                 </div>

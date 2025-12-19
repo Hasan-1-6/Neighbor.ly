@@ -58,7 +58,7 @@ const LoginCard = () => {
 
       toast.success("logged in succesfully");
     } catch (err) {
-      toast.error("couldnt fetch shit" + err.message);
+      toast.error(err.message);
     } finally {
       setIsLoading(false);
     }

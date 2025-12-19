@@ -18,7 +18,6 @@ import {
   CreditCard,
 } from "lucide-react";
 
-import society from "../public/society.png";
 import toast from "react-hot-toast";
 import { AppContext } from "../App";
 
@@ -112,7 +111,7 @@ const Sidebar = () => {
         <div className="flex items-center justify-between p-4 border-b border-gray-300">
           <div className="flex items-center gap-2">
             <img
-              src={society}
+              src="/society.png"
               alt="logo"
               className={`rounded-xl object-cover transition-all duration-300 ${
                 collapsed ? "w-6 h-6" : "w-10 h-10"
