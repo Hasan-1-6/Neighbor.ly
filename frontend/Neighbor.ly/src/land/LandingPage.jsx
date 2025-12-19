@@ -59,7 +59,7 @@ const LandingPage = () => {
                 <div className='max-w-7xl mx-auto px-4 md:px-6'>
                     <div className='flex justify-around items-center py-4'>
                         <div className='flex items-center'>
-                            <h1 className='font-bold text-2xl'>IERT Society Management</h1>
+                            <h1 className='font-semibold text-2xl'><b>Neighbor.ly</b> - Society Management App</h1>
                         </div>
                         <nav className='hidden md:flex'>
                             <ul className='flex items-center justify-center gap-7 font-medium text-xl'>
@@ -99,9 +99,9 @@ const LandingPage = () => {
                                 <button className="border border-gray-300 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-50 transition-colors">
                                     Schedule Demo
                                 </button>
-                                <button className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                                <a className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors" href='/login'>
                                     Get Started
-                                </button>
+                                </a>
                             </div>
                             <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div className="flex items-start gap-3">
@@ -272,7 +272,7 @@ const LandingPage = () => {
                                     </li>
                                     <li className="flex items-start gap-2">
                                         <Phone className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                                        <span>+91 8789748226</span>
+                                        <span>+91 1234566789</span>
                                     </li>
                                     <li className="flex items-start gap-2">
                                         <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" />
