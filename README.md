@@ -27,7 +27,7 @@ Neighbor.ly is a full-stack web application designed to streamline apartment man
 - **Frontend:**
   - React.js with Vite
   - JavaScript
-  - CSS
+  - Tailwind CSS
 
 - **Backend:**
   - Node.js with Express.js
