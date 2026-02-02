@@ -6,15 +6,20 @@ import { toast } from "react-hot-toast";
 import isEmail from "validator/lib/isEmail";
 
 const LoginCard = () => {
+  const [isAdmin, setIsAdmin] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [inpField, setInpField] = useState("");
-  const [passwordField, setPasswordField] = useState("");
+  const [inpField, setInpField] = useState(isAdmin ? "xyz@gmail.com" : "E1001");
+  const [passwordField, setPasswordField] = useState("abc123");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const url = import.meta.env.VITE_APP_BACKEND_URL;
 
   const { setRole, setLoggedIn, setUser } = useContext(AppContext);
+
+  useEffect(()=>{   
+      setInpField(isAdmin ? 'xyz@gmail.com' : 'E1001')
+      setPasswordField('abc123')
+  },[isAdmin])
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
@@ -22,7 +27,7 @@ const LoginCard = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+  
     if (!isEmail(inpField) && isAdmin) {
       toast.error("Enter a valid Email");
       return;
@@ -32,6 +37,7 @@ const LoginCard = () => {
       return;
     }
     try {
+      setIsLoading(true);
       const fetchUrl = isAdmin
         ? `${url}/api/auth/loginAdmin`
         : `${url}/api/auth/loginUser`;
@@ -158,12 +164,13 @@ const LoginCard = () => {
             </svg>
           </div>
 
-          <div className="flex justify-start items-center ml-1 mt-3 mb-6 text-sm">
+          {/* <div className="flex justify-start items-center ml-1 mt-3 mb-6 text-sm">
             <label className="text-secondary flex items-center gap-1.5 cursor-pointer">
               <input type="checkbox" className="w-4 h-4 accent-primary" />
               Remember me
             </label>
-          </div>
+          </div> */}
+
 
           <button
             type="submit"
