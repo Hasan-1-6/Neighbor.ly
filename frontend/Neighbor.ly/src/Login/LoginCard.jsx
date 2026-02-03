@@ -9,7 +9,7 @@ const LoginCard = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [inpField, setInpField] = useState(isAdmin ? "xyz@gmail.com" : "E1001");
-  const [passwordField, setPasswordField] = useState("abc123");
+  const [passwordField, setPasswordField] = useState("abcd123");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const url = import.meta.env.VITE_APP_BACKEND_URL;
