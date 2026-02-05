@@ -11,7 +11,7 @@ import dotenv from 'dotenv'
 export const app = express();
 dotenv.config();
 app.use(cors({
-    origin : "https://neighbor-ly-eight.vercel.app",
+    origin : "https://neighbor-ly.metadude.in",
     credentials : true
 }))
 app.use(express.json());
