@@ -18,7 +18,7 @@ const LoginCard = () => {
 
   useEffect(()=>{   
       setInpField(isAdmin ? 'xyz@gmail.com' : 'E1001')
-      setPasswordField('abc123')
+      setPasswordField('abcd123')
   },[isAdmin])
 
   const togglePassword = () => {
